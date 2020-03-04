@@ -1,0 +1,140 @@
+@import '../../Styles/default.less';
+.sidebar {
+	background: #f9f9f900;
+	overflow: hidden;
+	// position: fixed;
+	// left: 0;
+	// flex: 0 0 200px;
+	// height: 100vh;
+	// max-width: 200px;
+	// min-width: 200px;
+	// width: 200px;
+}
+.logo {
+	margin-bottom: 1rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background: #6064f4;
+	border-bottom-left-radius: 100%;
+	border-bottom-right-radius: 100%;
+	will-change: transform;
+	position: fixed;
+}
+.avatar-img {
+	background-color: @white;
+	.circle-shadow(@layout-header-background);
+	object-fit: cover;
+}
+// Menu
+.clean.border-right {
+	transform: none;
+	border-right: 0;
+}
+.ant-menu-item-selected {
+	background-color: @layout-body-background !important;
+	a {
+		color: @layout-header-background;
+	}
+}
+.menuContainer {
+	position: absolute;
+	top: 30%;
+	left: 0;
+	flex: 0 0 200px;
+	max-width: 200px;
+	// min-width: 200px;
+}
+.menu {
+	background-color: @layout-header-background;
+	border: 1px solid @layout-header-background;
+	padding: 1rem 0.5rem;
+	border-radius: 1rem;
+	height: 50vh;
+	position: fixed;
+	max-width: 200px;
+	.menuItem {
+		a {
+			.vertical-align();
+			color: @white;
+		}
+		&:after {
+			.clean.border-right();
+		}
+	}
+	.ant-menu-item-selected {
+		background-color: @layout-body-background !important;
+		width: auto;
+		border-radius: 1rem;
+		a {
+			color: @layout-header-background;
+		}
+	}
+	.navbar-subMenu {
+		ul {
+			border-radius: 1rem;
+			background-color: lighten(@layout-header-background, 30%);
+		}
+		.navbar-subMenu-title {
+			color: @white;
+			.vertical-align();
+		}
+		.ant-menu-submenu-arrow {
+			&:before,
+			&:after {
+				background: @white !important;
+			}
+		}
+		.navbar-subMenu-item {
+			border-radius: 1rem 0 0 1rem;
+			&:after {
+				.clean.border-right();
+			}
+		}
+		.ant-menu-item-selected {
+			.ant-menu-item-selected();
+		}
+	}
+	.navbar-title-icon {
+		color: @success-color;
+	}
+}
+.ant-menu-inline-collapsed {
+	.menuItem {
+		a {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+		}
+	}
+}
+.ant-menu-inline-collapsed {
+	.navbar-subMenu {
+		.navbar-subMenu-title {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+		}
+	}
+	.menuItem {
+		a {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+		}
+	}
+}
+.user-title {
+	margin: 0.5rem 0 0;
+	color: @secondary-color;
+	text-align: center;
+	font-weight: lighter;
+}
+.user-type-title {
+	text-align: center;
+	color: @normal-color;
+}

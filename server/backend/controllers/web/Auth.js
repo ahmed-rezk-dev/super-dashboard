@@ -12,19 +12,6 @@ const passportConfig = require('../../config/passport.js');
 const randomBytesAsync = promisify(crypto.randomBytes);
 
 /**
- * GET /login
- * Login page.
- */
-exports.getLogin = (req, res) => {
-	if (req.user) {
-		return res.redirect('/');
-	}
-	res.render('account/login', {
-		title: 'Login',
-	});
-};
-
-/**
  * POST /login
  * Sign in using email and password.
  */
@@ -88,33 +75,6 @@ exports.postLogin = (req, res, next) => {
 };
 
 /**
- * GET /logout
- * Log out.
- */
-exports.logout = (req, res) => {
-	req.logout();
-	req.session.destroy(err => {
-		if (err)
-			console.log('Error : Failed to destroy the session during logout.', err);
-		req.user = null;
-		res.redirect('/');
-	});
-};
-
-/**
- * GET /signup
- * Signup page.
- */
-exports.getSignup = (req, res) => {
-	if (req.user) {
-		return res.redirect('/');
-	}
-	res.render('account/signup', {
-		title: 'Create Account',
-	});
-};
-
-/**
  * POST /signup
  * Create a new local account.
  */
@@ -166,16 +126,13 @@ exports.postSignup = (req, res, next) => {
 	});
 };
 
-/**
- * GET /account
- * Profile page.
- */
-exports.getAccount = (req, res) => {
-	return res.status(200).json({
+// #region GET /account
+exports.getAccount = (req, res) =>
+	res.status(200).json({
 		status: 'success',
 		data: req.user || null,
 	});
-};
+// #endregion
 
 /**
  * POST /account/profile
@@ -272,49 +229,6 @@ exports.postDeleteAccount = (req, res, next) => {
 };
 
 /**
- * GET /account/unlink/:provider
- * Unlink OAuth provider.
- */
-exports.getOauthUnlink = (req, res, next) => {
-	const { provider } = req.params;
-	User.findById(req.user.id, (err, user) => {
-		if (err) {
-			return next(err);
-		}
-		user[provider.toLowerCase()] = undefined;
-		const tokensWithoutProviderToUnlink = user.tokens.filter(
-			token => token.kind !== provider.toLowerCase(),
-		);
-		// Some auth providers do not provide an email address in the user profile.
-		// As a result, we need to verify that unlinking the provider is safe by ensuring
-		// that another login method exists.
-		if (
-			!(user.email && user.password) &&
-			tokensWithoutProviderToUnlink.length === 0
-		) {
-			req.flash('errors', {
-				msg:
-					`The ${_.startCase(
-						_.toLower(provider),
-					)} account cannot be unlinked without another form of login enabled.` +
-					' Please link another account or add an email address and password.',
-			});
-			return res.redirect('/account');
-		}
-		user.tokens = tokensWithoutProviderToUnlink;
-		user.save(err => {
-			if (err) {
-				return next(err);
-			}
-			req.flash('info', {
-				msg: `${_.startCase(_.toLower(provider))} account has been unlinked.`,
-			});
-			res.redirect('/account');
-		});
-	});
-};
-
-/**
  * GET /reset/:token
  * Reset Password page.
  */
@@ -384,7 +298,7 @@ exports.getVerifyEmailToken = (req, res, next) => {
 			.catch(error => {
 				console.log(
 					'Error saving the user profile to the database after email verification',
-					error,
+					error
 				);
 				req.flash('error', {
 					msg:
@@ -414,7 +328,7 @@ exports.getVerifyEmail = (req, res, next) => {
 	}
 
 	const createRandomToken = randomBytesAsync(16).then(buf =>
-		buf.toString('hex'),
+		buf.toString('hex')
 	);
 
 	const setRandomToken = token => {
@@ -453,7 +367,7 @@ exports.getVerifyEmail = (req, res, next) => {
 			.catch(err => {
 				if (err.message === 'self signed certificate in certificate chain') {
 					console.log(
-						'WARNING: Self signed certificate in certificate chain. Retrying with the self signed certificate. Use a valid certificate if in production.',
+						'WARNING: Self signed certificate in certificate chain. Retrying with the self signed certificate. Use a valid certificate if in production.'
 					);
 					transporter = nodemailer.createTransport({
 						service: 'SendGrid',
@@ -473,7 +387,7 @@ exports.getVerifyEmail = (req, res, next) => {
 				}
 				console.log(
 					'ERROR: Could not send verifyEmail email after security downgrade.\n',
-					err,
+					err
 				);
 				req.flash('errors', {
 					msg:
@@ -534,7 +448,7 @@ exports.postReset = (req, res, next) => {
 								}
 								resolve(user);
 							});
-						}),
+						})
 				);
 			});
 
@@ -557,16 +471,16 @@ exports.postReset = (req, res, next) => {
 		};
 		return transporter
 			.sendMail(mailOptions)
-			.then(() => {
-				return res.status(200).json({
+			.then(() =>
+				res.status(200).json({
 					status: 'success',
 					msg: 'Success! Your password has been changed.',
-				});
-			})
+				})
+			)
 			.catch(err => {
 				if (err.message === 'self signed certificate in certificate chain') {
 					console.log(
-						'WARNING: Self signed certificate in certificate chain. Retrying with the self signed certificate. Use a valid certificate if in production.',
+						'WARNING: Self signed certificate in certificate chain. Retrying with the self signed certificate. Use a valid certificate if in production.'
 					);
 					transporter = nodemailer.createTransport({
 						service: 'SendGrid',
@@ -578,16 +492,16 @@ exports.postReset = (req, res, next) => {
 							rejectUnauthorized: false,
 						},
 					});
-					return transporter.sendMail(mailOptions).then(() => {
-						return res.status(200).json({
+					return transporter.sendMail(mailOptions).then(() =>
+						res.status(200).json({
 							status: 'success',
 							msg: 'Success! Your password has been changed.',
-						});
-					});
+						})
+					);
 				}
 				console.log(
 					'ERROR: Could not send password reset confirmation email after security downgrade.\n',
-					err,
+					err
 				);
 				res.status(200).json({
 					status: 'success',
@@ -638,7 +552,7 @@ exports.postForgot = (req, res, next) => {
 	});
 
 	const createRandomToken = randomBytesAsync(16).then(buf =>
-		buf.toString('hex'),
+		buf.toString('hex')
 	);
 
 	const setRandomToken = token =>
@@ -679,16 +593,16 @@ exports.postForgot = (req, res, next) => {
 		};
 		return transporter
 			.sendMail(mailOptions)
-			.then(() => {
-				return res.status(200).json({
+			.then(() =>
+				res.status(200).json({
 					status: 'success',
 					msg: `An e-mail has been sent to ${user.email} with further instructions.`,
-				});
-			})
+				})
+			)
 			.catch(err => {
 				if (err.message === 'self signed certificate in certificate chain') {
 					console.log(
-						'WARNING: Self signed certificate in certificate chain. Retrying with the self signed certificate. Use a valid certificate if in production.',
+						'WARNING: Self signed certificate in certificate chain. Retrying with the self signed certificate. Use a valid certificate if in production.'
 					);
 					transporter = nodemailer.createTransport({
 						service: 'SendGrid',
@@ -700,16 +614,16 @@ exports.postForgot = (req, res, next) => {
 							rejectUnauthorized: false,
 						},
 					});
-					return transporter.sendMail(mailOptions).then(() => {
-						return res.status(200).json({
+					return transporter.sendMail(mailOptions).then(() =>
+						res.status(200).json({
 							status: 'success',
 							msg: `An e-mail has been sent to ${user.email} with further instructions.`,
-						});
-					});
+						})
+					);
 				}
 				console.log(
 					'ERROR: Could not send forgot password email after security downgrade.\n',
-					err,
+					err
 				);
 				res.status(400).json({
 					status: 'error',

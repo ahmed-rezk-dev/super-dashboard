@@ -1,28 +1,25 @@
 import React, { memo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { Form, Icon, Input, Button, Row } from 'antd';
+import { Form, Input, Button, Row } from 'antd';
+import { MailOutlined } from '@ant-design/icons';
 import { compose } from 'redux';
 import styled from 'styled-components';
+import { FormCard } from 'components/Login';
+import { CardHeader } from 'components/Card';
 import messages from './messages';
 
 function ForgetPasswordUsingEmail({
 	changeFormReducer,
 	fetching,
-	form,
 	sendForgetPasswordRequest,
 }) {
 	const Text = styled.p`
 		text-align: 'center';
 	`;
-	const { getFieldDecorator } = form;
-	const handleSubmitForm = e => {
-		e.preventDefault();
-		form.validateFields((err, values) => {
-			if (!err) {
-				sendForgetPasswordRequest(values);
-			}
-		});
+
+	const handleSubmitForm = values => {
+		sendForgetPasswordRequest(values);
 	};
 
 	const handleChangeForm = () => {
@@ -30,46 +27,44 @@ function ForgetPasswordUsingEmail({
 	};
 
 	return (
-		<div className="card form-card">
+		<FormCard>
 			{/* Start => card header */}
-			<div className="card-header">
-				<h3 className="card-title">
+			<CardHeader>
+				<h3>
 					<FormattedMessage {...messages.forgetPassword} />
 				</h3>
 
 				<Text>
 					<FormattedMessage {...messages.forgetPasswordLabel} />
 				</Text>
-			</div>
-			<Form onSubmit={handleSubmitForm} className="login-form">
-				<Form.Item hasFeedback>
-					{getFieldDecorator('email', {
-						rules: [
-							{
-								type: 'email',
-								required: true,
-								message: 'Please input your Email!',
-							},
-						],
-					})(
-						<Input
-							prefix={<Icon type="mail" />}
-							placeholder="Email"
-							size="large"
-						/>
-					)}
+			</CardHeader>
+			<Form onFinish={handleSubmitForm}>
+				<Form.Item
+					hasFeedback
+					name="email"
+					rules={[
+						{
+							type: 'email',
+							required: true,
+							message: 'Please input your Email!',
+						},
+					]}
+				>
+					<Input prefix={<MailOutlined />} placeholder="Email" size="large" />
 				</Form.Item>
 				<Form.Item>
-					<Button
-						type="primary"
-						htmlType="submit"
-						size="large"
-						className="login-form-button"
-						loading={fetching}
-					>
-						Send!
-					</Button>
-					<Row>
+					<Row justify="center">
+						<Button
+							type="primary"
+							htmlType="submit"
+							size="large"
+							className="login-form-button"
+							loading={fetching}
+						>
+							Send!
+						</Button>
+					</Row>
+					<Row justify="center">
 						{/* Start => Forget Password link */}
 						<Button type="link" onClick={handleChangeForm} href="#login">
 							<FormattedMessage {...messages.loginTitle} />
@@ -77,7 +72,7 @@ function ForgetPasswordUsingEmail({
 					</Row>
 				</Form.Item>
 			</Form>
-		</div>
+		</FormCard>
 	);
 }
 

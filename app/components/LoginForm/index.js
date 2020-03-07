@@ -10,6 +10,7 @@ import { Form, Input, Button, Row } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { compose } from 'redux';
 import { FormCard, FormCardInfo, LoginFormButton } from 'components/Login';
+import { CardHeader } from 'components/Card';
 import messages from './messages';
 
 function LoginForm({ fetching, changeFormReducer, loginDis }) {
@@ -19,11 +20,11 @@ function LoginForm({ fetching, changeFormReducer, loginDis }) {
 
 	return (
 		<FormCard>
-			<div className="card-header">
+			<CardHeader>
 				<h3>
 					<FormattedMessage {...messages.loginTitle} />
 				</h3>
-			</div>
+			</CardHeader>
 			<FormCardInfo>
 				<p>Email: work72019@gmail.com</p>
 				<p>Password: 123456</p>
@@ -55,14 +56,16 @@ function LoginForm({ fetching, changeFormReducer, loginDis }) {
 					/>
 				</Form.Item>
 				<Form.Item>
-					<LoginFormButton
-						type="primary"
-						htmlType="submit"
-						size="large"
-						loading={fetching}
-					>
-						<FormattedMessage {...messages.loginBtn} />
-					</LoginFormButton>
+					<Row justify="center">
+						<LoginFormButton
+							type="primary"
+							htmlType="submit"
+							size="large"
+							loading={fetching}
+						>
+							<FormattedMessage {...messages.loginBtn} />
+						</LoginFormButton>
+					</Row>
 					<Row justify="center">
 						<Button
 							type="link"

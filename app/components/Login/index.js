@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Row, Button } from 'antd';
-import Card from 'components/Card';
+import { Card } from 'components/Card';
 
 const MainContainer = styled.div`
 	background-color: ${props => props.theme.colors.defaultColor};

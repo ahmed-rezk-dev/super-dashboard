@@ -66,14 +66,16 @@ app.use(
 	})
 );
 
-app.use((req, res, next) => {
-	if (req.path === '/api/upload') {
-		// Multer multipart/form-data handling needs to occur before the Lusca CSRF check.
-		next();
-	} else {
-		lusca.csrf()(req, res, next);
-	}
-});
+// #region Function casing => Error: CSRF token missing
+// app.use((req, res, next) => {
+// 	if (req.path === '/api/upload') {
+// 		// Multer multipart/form-data handling needs to occur before the Lusca CSRF check.
+// 		next();
+// 	} else {
+// 		lusca.csrf()(req, res, next);
+// 	}
+// });
+// #endregion
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
 app.disable('x-powered-by');
@@ -85,6 +87,7 @@ app.use((req, res, next) => {
 /**
  * Upload files api
  */
+// #region
 const apiController = require('./controllers/api');
 app.get('/api/upload', lusca({ csrf: true }), apiController.getFileUpload);
 app.post(
@@ -93,6 +96,7 @@ app.post(
 	lusca({ csrf: true }),
 	apiController.postFileUpload
 );
+// #endregion
 
 /**
  * Browser routes
@@ -100,6 +104,11 @@ app.post(
 app.get('/whoami', (req, res) => {
 	res.send('You are a winner');
 });
+/**
+ * Api Routes.
+ */
+const webRoutes = require('./routes/web');
+app.use('/api', webRoutes);
 
 /**
  * Error Handler.

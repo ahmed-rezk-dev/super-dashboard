@@ -7,8 +7,14 @@ const prettierOptions = JSON.parse(
 
 module.exports = {
 	parser: 'babel-eslint',
-	extends: ['airbnb', 'prettier', 'prettier/react'],
 	plugins: ['prettier', 'redux-saga', 'react', 'react-hooks', 'jsx-a11y'],
+	extends: [
+		'airbnb',
+		'prettier',
+		'prettier/react',
+		'eslint:recommended',
+		'plugin:react/recommended',
+	],
 	env: {
 		jest: true,
 		browser: true,
@@ -16,10 +22,11 @@ module.exports = {
 		es6: true,
 	},
 	parserOptions: {
-		ecmaVersion: 6,
+		ecmaVersion: 8,
 		sourceType: 'module',
 		ecmaFeatures: {
 			jsx: true,
+			modules: true,
 		},
 	},
 	rules: {
@@ -34,14 +41,20 @@ module.exports = {
 		'import/no-unresolved': 2,
 		'import/no-webpack-loader-syntax': 0,
 		'import/prefer-default-export': 0,
+		'no-underscore-dangle': 0,
+		'node/no-unsupported-features/es-syntax': [
+			0,
+			{
+				version: '>=8.15.1',
+				ignores: ['modules', 'destructuring'],
+			},
+		],
+		'react/jsx-props-no-spreading': 0,
 		'jsx-a11y/aria-props': 2,
 		'jsx-a11y/heading-has-content': 0,
 		'jsx-a11y/label-has-associated-control': [
 			2,
 			{
-				// NOTE: If this error triggers, either disable it or add
-				// your custom components, labels and attributes via these options
-				// See https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/label-has-associated-control.md
 				controlComponents: ['Input'],
 			},
 		],
@@ -71,6 +84,9 @@ module.exports = {
 		'redux-saga/no-yield-in-race': 2,
 		'redux-saga/yield-effects': 2,
 		'require-yield': 0,
+		'no-multi-assign': 0,
+		'no-set-state': 0,
+		'react/no-multi-comp': ['error', { ignoreStateless: true }],
 	},
 	settings: {
 		'import/resolver': {

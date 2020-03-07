@@ -2,10 +2,10 @@ import React, { useEffect, useState, memo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import { Form, Input, Icon, Button, Row, typography } from 'antd';
+import styled from 'styled-components';
+import { Form, Input, Icon, Button, Row } from 'antd';
 import { compose } from 'redux';
 import messages from './messages';
-const { Text } = typography;
 
 let params;
 
@@ -17,6 +17,9 @@ function ForgetPasswordUsingEmail({
 	form,
 	resetPasswordReducer,
 }) {
+	const Text = styled.p`
+		text-align: 'center';
+	`;
 	const [confirmDirty, setConfirmDirty] = useState(false);
 
 	useEffect(() => {

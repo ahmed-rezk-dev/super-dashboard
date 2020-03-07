@@ -7,11 +7,10 @@
 import React, { memo } from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { Layout, Menu } from 'antd';
 import * as Icons from '@ant-design/icons';
 import { Spring, animated } from 'react-spring/renderprops';
-// Style
-import './style.less';
 // Images
 import userImage from '../../assets/img/user.jpg';
 const { Sider } = Layout;
@@ -89,17 +88,25 @@ const Sidebar = ({ toggle, collapsed, routes, history, currentRoute }) => {
 		}
 	});
 
+	// SiderContainer
+	const SiderContainer = styled(Sider)`
+		background: #f9f9f900;
+		overflow: hidden;
+	`;
+
 	return (
-		<Sider
+		<SiderContainer
 			collapsible
 			collapsed={collapsed}
 			onCollapse={toggle}
-			className="sidebar"
 			trigger={null}
 		>
 			<Spring
 				native
-				from={{ opacity: 0, marginTop: -1000 }}
+				from={{
+					opacity: 0,
+					marginTop: -1000,
+				}}
 				to={{
 					opacity: 1,
 					marginTop: 0,
@@ -133,14 +140,24 @@ const Sidebar = ({ toggle, collapsed, routes, history, currentRoute }) => {
 							<animated.img
 								src={userImage}
 								className="avatar-img"
-								style={{ width, height }}
+								style={{
+									width,
+									height,
+								}}
 							/>
-							<animated.h3 className="user-title" style={{ fontSize }}>
+							<animated.h3
+								className="user-title"
+								style={{
+									fontSize,
+								}}
+							>
 								Ahmed Rezk
 							</animated.h3>
 							<animated.small
 								className="user-type-title"
-								style={{ fontSize: collapsed ? '0rem' : '0.7rem' }}
+								style={{
+									fontSize: collapsed ? '0rem' : '0.7rem',
+								}}
 							>
 								Super Admin
 							</animated.small>
@@ -150,7 +167,9 @@ const Sidebar = ({ toggle, collapsed, routes, history, currentRoute }) => {
 			</Spring>
 			<Spring
 				native
-				from={{ left: '-210px' }}
+				from={{
+					left: '-210px',
+				}}
 				to={{
 					left: '0px',
 					minWidth: collapsed ? 'auto' : '200px',
@@ -158,7 +177,13 @@ const Sidebar = ({ toggle, collapsed, routes, history, currentRoute }) => {
 			>
 				{({ left, minWidth }) => (
 					<>
-						<animated.div className="menuContainer" style={{ left, minWidth }}>
+						<animated.div
+							className="menuContainer"
+							style={{
+								left,
+								minWidth,
+							}}
+						>
 							<Menu
 								defaultSelectedKeys={[currentPath]}
 								defaultOpenKeys={[
@@ -173,7 +198,7 @@ const Sidebar = ({ toggle, collapsed, routes, history, currentRoute }) => {
 					</>
 				)}
 			</Spring>
-		</Sider>
+		</SiderContainer>
 	);
 };
 Sidebar.propTypes = {

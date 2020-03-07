@@ -6,8 +6,10 @@
 import React, { memo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { Form, Icon, Input, Button, Row } from 'antd';
+import { Form, Input, Button, Row } from 'antd';
+import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { compose } from 'redux';
+import { FormCard, FormCardInfo, LoginFormButton } from 'components/Login';
 import messages from './messages';
 
 function LoginForm({ fetching, changeFormReducer, loginDis }) {
@@ -16,17 +18,17 @@ function LoginForm({ fetching, changeFormReducer, loginDis }) {
 	};
 
 	return (
-		<div className="card form-card">
+		<FormCard>
 			<div className="card-header">
-				<h3 className="card-title">
+				<h3>
 					<FormattedMessage {...messages.loginTitle} />
 				</h3>
 			</div>
-			<div className="info">
+			<FormCardInfo>
 				<p>Email: work72019@gmail.com</p>
 				<p>Password: 123456</p>
-			</div>
-			<Form onFinish={handleSubmitForm} className="login-form">
+			</FormCardInfo>
+			<Form onFinish={handleSubmitForm}>
 				<Form.Item
 					hasFeedback
 					name="email"
@@ -38,11 +40,7 @@ function LoginForm({ fetching, changeFormReducer, loginDis }) {
 						},
 					]}
 				>
-					<Input
-						prefix={<Icon type="mail" />}
-						placeholder="Email"
-						size="large"
-					/>
+					<Input prefix={<MailOutlined />} placeholder="Email" size="large" />
 				</Form.Item>
 				<Form.Item
 					hasFeedback
@@ -50,29 +48,22 @@ function LoginForm({ fetching, changeFormReducer, loginDis }) {
 					rules={[{ required: true, message: 'Please input your Password!' }]}
 				>
 					<Input.Password
-						prefix={<Icon type="lock" />}
+						prefix={<LockOutlined />}
 						type="password"
 						placeholder="Password"
 						size="large"
 					/>
 				</Form.Item>
 				<Form.Item>
-					<Button
+					<LoginFormButton
 						type="primary"
 						htmlType="submit"
 						size="large"
-						className="login-form-button"
 						loading={fetching}
 					>
 						<FormattedMessage {...messages.loginBtn} />
-					</Button>
-					<Row>
-						{/* {getFieldDecorator('remember', {
-							valuePropName: 'checked',
-							initialValue: true,
-						})(<Checkbox>Remember me</Checkbox>)}
-						<Divider type="vertical" /> */}
-						{/* Start => Forget Password link */}
+					</LoginFormButton>
+					<Row justify="center">
 						<Button
 							type="link"
 							onClick={() => changeFormReducer('forget')}
@@ -83,7 +74,7 @@ function LoginForm({ fetching, changeFormReducer, loginDis }) {
 					</Row>
 				</Form.Item>
 			</Form>
-		</div>
+		</FormCard>
 	);
 }
 

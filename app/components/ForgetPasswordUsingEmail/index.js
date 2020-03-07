@@ -1,16 +1,20 @@
 import React, { memo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { Form, Icon, Input, Button, Row, typography } from 'antd';
+import { Form, Icon, Input, Button, Row } from 'antd';
 import { compose } from 'redux';
+import styled from 'styled-components';
 import messages from './messages';
-const { Text } = typography;
+
 function ForgetPasswordUsingEmail({
 	changeFormReducer,
 	fetching,
 	form,
 	sendForgetPasswordRequest,
 }) {
+	const Text = styled.p`
+		text-align: 'center';
+	`;
 	const { getFieldDecorator } = form;
 	const handleSubmitForm = e => {
 		e.preventDefault();

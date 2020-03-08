@@ -5,8 +5,9 @@
  */
 import React, { memo } from 'react';
 // import PropTypes from 'prop-types';
-import { Dropdown, Badge, Button, Menu } from 'antd';
+import { Badge, Button, Menu } from 'antd';
 import { BellOutlined } from '@ant-design/icons';
+import { DropdownContainer } from 'Styled/DropdownMenu';
 // import { FormattedMessage } from 'react-intl';
 // import messages from './messages';
 
@@ -44,15 +45,11 @@ function NotificationsMenu() {
 		</Menu>
 	);
 	return (
-		<Dropdown
-			overlay={notificationsMenu}
-			placement="bottomLeft"
-			className="navbar-dropdown"
-		>
+		<DropdownContainer overlay={notificationsMenu} placement="bottomLeft">
 			<Badge count={1}>
 				<Button icon={<BellOutlined />} />
 			</Badge>
-		</Dropdown>
+		</DropdownContainer>
 	);
 }
 

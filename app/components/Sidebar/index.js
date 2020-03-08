@@ -7,10 +7,8 @@
 import React, { memo } from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { Layout, Menu } from 'antd';
 import * as Icons from '@ant-design/icons';
-import { Spring, animated } from 'react-spring/renderprops';
+import { Spring } from 'react-spring/renderprops';
 // Images
 import {
 	SiderContainer,
@@ -26,8 +24,6 @@ import {
 	SubMenuItem,
 } from 'Styled/Sidebar';
 import userImage from '../../assets/img/user.jpg';
-const { Sider } = Layout;
-const { SubMenu } = Menu;
 const Sidebar = ({ toggle, collapsed, routes, history, currentRoute }) => {
 	const currentPath = history.location.pathname;
 

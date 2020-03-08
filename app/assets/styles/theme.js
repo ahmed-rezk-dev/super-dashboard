@@ -46,6 +46,13 @@ const xl = style => `@media (min-width: 1200px) { ${style} }`;
 const xxl = style => `@media only screen and (min-width: 1441px) { ${style} }`;
 // #endregion
 
+const verticalAlign = `
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+`;
+
 const theme = {
 	colors: {
 		defaultColor,
@@ -79,6 +86,7 @@ const theme = {
 		borderRadiusBase,
 	},
 	grid: { xsSize, smSize, mdSize, lgSize, xlSize, xs, sm, md, lg, xl, xxl },
+	utilities: { verticalAlign },
 };
 
 export const GlobalStyle = createGlobalStyle`

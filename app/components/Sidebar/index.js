@@ -12,6 +12,19 @@ import { Layout, Menu } from 'antd';
 import * as Icons from '@ant-design/icons';
 import { Spring, animated } from 'react-spring/renderprops';
 // Images
+import {
+	SiderContainer,
+	Logo,
+	AvatarImg,
+	UsernameTitle,
+	UserTypeTitle,
+	MenuContainer,
+	SiderMenu,
+	MenuItem,
+	SubMenuContainer,
+	SubMenuTitle,
+	SubMenuItem,
+} from 'Styled/Sidebar';
 import userImage from '../../assets/img/user.jpg';
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -50,49 +63,42 @@ const Sidebar = ({ toggle, collapsed, routes, history, currentRoute }) => {
 				const Icon = Icons[singleItem.icon];
 				const linkTo = singleItem.layout + singleItem.path;
 				links.push(
-					<Menu.Item key={linkTo} className="menuItem">
+					<MenuItem key={linkTo}>
 						<NavLink to={linkTo} key={singleItem.path}>
 							<Icon />
 							<span>{singleItem.name}</span>
 						</NavLink>
-					</Menu.Item>
+					</MenuItem>
 				);
 			});
 		} else {
 			const SubMenuIcon = Icons[key.icon];
 			links.push(
-				<SubMenu
-					className="navbar-subMenu"
+				<SubMenuContainer
 					key={key.name}
 					title={
-						<span className="navbar-subMenu-title">
+						<SubMenuTitle>
 							<SubMenuIcon />
 							<span>{key.name}</span>
-						</span>
+						</SubMenuTitle>
 					}
 				>
 					{prop.map(groupItem => {
 						const linkTo = `${groupItem.layout}/${groupItem.group.name}${groupItem.path}`;
 						const GroupItemIcon = Icons[groupItem.icon];
 						return (
-							<Menu.Item key={linkTo} className="navbar-subMenu-item">
+							<SubMenuItem key={linkTo}>
 								<NavLink to={linkTo} key={groupItem.path}>
 									<GroupItemIcon />
 									<span>{groupItem.name}</span>
 								</NavLink>
-							</Menu.Item>
+							</SubMenuItem>
 						);
 					})}
-				</SubMenu>
+				</SubMenuContainer>
 			);
 		}
 	});
-
-	// SiderContainer
-	const SiderContainer = styled(Sider)`
-		background: #f9f9f900;
-		overflow: hidden;
-	`;
 
 	return (
 		<SiderContainer
@@ -128,8 +134,7 @@ const Sidebar = ({ toggle, collapsed, routes, history, currentRoute }) => {
 					marginTop,
 				}) => (
 					<>
-						<animated.div
-							className="logo"
+						<Logo
 							style={{
 								minHeight,
 								minWidth,
@@ -137,31 +142,28 @@ const Sidebar = ({ toggle, collapsed, routes, history, currentRoute }) => {
 								marginTop,
 							}}
 						>
-							<animated.img
+							<AvatarImg
 								src={userImage}
-								className="avatar-img"
 								style={{
 									width,
 									height,
 								}}
 							/>
-							<animated.h3
-								className="user-title"
+							<UsernameTitle
 								style={{
 									fontSize,
 								}}
 							>
 								Ahmed Rezk
-							</animated.h3>
-							<animated.small
-								className="user-type-title"
+							</UsernameTitle>
+							<UserTypeTitle
 								style={{
 									fontSize: collapsed ? '0rem' : '0.7rem',
 								}}
 							>
 								Super Admin
-							</animated.small>
-						</animated.div>
+							</UserTypeTitle>
+						</Logo>
 					</>
 				)}
 			</Spring>
@@ -177,24 +179,22 @@ const Sidebar = ({ toggle, collapsed, routes, history, currentRoute }) => {
 			>
 				{({ left, minWidth }) => (
 					<>
-						<animated.div
-							className="menuContainer"
+						<MenuContainer
 							style={{
 								left,
 								minWidth,
 							}}
 						>
-							<Menu
+							<SiderMenu
 								defaultSelectedKeys={[currentPath]}
 								defaultOpenKeys={[
 									currentRoute.group ? currentRoute.group.name : null,
 								]}
 								mode="inline"
-								className="menu"
 							>
 								{links}
-							</Menu>
-						</animated.div>
+							</SiderMenu>
+						</MenuContainer>
 					</>
 				)}
 			</Spring>

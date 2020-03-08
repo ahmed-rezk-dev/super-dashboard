@@ -7,28 +7,16 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 // core components
-import { Layout, Icon, Row, Col } from 'antd';
+import { Row, Col } from 'antd';
+import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import { Spring, animated } from 'react-spring/renderprops';
-import styled from 'styled-components';
 import UserMenu from 'components/UserMenu';
 import NotificationsMenu from 'components/NotificationsMenu';
+import { TriggerBtn, MainContainer } from 'Styled/Navbar';
 
 const CustomBreadcrumb = React.lazy(() =>
 	import('components/CustomBreadcrumb')
 );
-const { Header } = Layout;
-
-// #region  mainContainer styles
-export const MainContainer = styled(Header)`
-	padding: 0;
-	z-index: 1;
-	background: #eee;
-	border: 1px solid #eee;
-	border-radius: 5px;
-	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.09);
-	margin: 24px 24px 10px 24px;
-`;
-// #endregion
 function Navbar({ collapsed, toggle, history, currentRoute }) {
 	const childProps = { history };
 
@@ -43,11 +31,14 @@ function Navbar({ collapsed, toggle, history, currentRoute }) {
 					<MainContainer>
 						<Row type="flex" align="middle">
 							<Col span={1}>
-								{/* <Icon
-									className="trigger"
-									type={collapsed ? 'menu-unfold' : 'menu-fold'}
+								<TriggerBtn
 									onClick={toggle}
-								/> */}
+									icon={
+										collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
+									}
+									ghost
+									size="large"
+								/>
 							</Col>
 							<Col span={21}>
 								<CustomBreadcrumb

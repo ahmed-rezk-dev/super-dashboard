@@ -7,7 +7,7 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { Dropdown, Menu, Button } from 'antd';
+import { Menu, Button } from 'antd';
 import {
 	MenuOutlined,
 	UserOutlined,
@@ -15,6 +15,7 @@ import {
 	BulbOutlined,
 	LogoutOutlined,
 } from '@ant-design/icons';
+import { DropdownContainer, DropMenuItem } from 'Styled/DropdownMenu';
 import { removeAuthToken } from '../../utils/Auth';
 import { setCurrentUser } from '../../containers/App/actions';
 import configureStore from '../../configureStore';
@@ -31,42 +32,38 @@ function UserMenu({ history }) {
 
 	const userMenu = (
 		<Menu>
-			<Menu.Item className="menu-item">
+			<DropMenuItem>
 				<a rel="noopener noreferrer" href="#....">
 					<UserOutlined />
 					My Profile
 				</a>
-			</Menu.Item>
-			<Menu.Item className="menu-item">
+			</DropMenuItem>
+			<DropMenuItem>
 				<a rel="noopener noreferrer" href="#....">
 					<SettingOutlined />
 					Settings
 				</a>
-			</Menu.Item>
-			<Menu.Item className="menu-item">
+			</DropMenuItem>
+			<DropMenuItem>
 				<a rel="noopener noreferrer" href="#....">
 					<BulbOutlined />
 					Support
 				</a>
-			</Menu.Item>
+			</DropMenuItem>
 			<Menu.Divider />
-			<Menu.Item className="menu-item" onClick={() => logout()}>
+			<DropMenuItem onClick={() => logout()}>
 				<div>
 					<LogoutOutlined />
 					<FormattedMessage {...messages.logout} />
 				</div>
-			</Menu.Item>
+			</DropMenuItem>
 		</Menu>
 	);
 
 	return (
-		<Dropdown
-			overlay={userMenu}
-			placement="bottomLeft"
-			className="navbar-dropdown"
-		>
+		<DropdownContainer overlay={userMenu} placement="bottomLeft">
 			<Button icon={<MenuOutlined />} />
-		</Dropdown>
+		</DropdownContainer>
 	);
 }
 

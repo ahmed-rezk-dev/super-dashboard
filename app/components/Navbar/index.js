@@ -36,8 +36,8 @@ function Navbar({ collapsed, toggle, history, currentRoute }) {
 									icon={
 										collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
 									}
-									ghost
 									size="large"
+									ghost
 								/>
 							</Col>
 							<Col span={21}>

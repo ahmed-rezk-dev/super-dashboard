@@ -5,7 +5,7 @@
  */
 
 import React, { memo, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 // import { FormattedMessage } from 'react-intl';
 // import { Helmet } from 'react-helmet';
 import { compose } from 'redux';
@@ -149,9 +149,7 @@ export function Dashboard() {
 	);
 }
 
-Dashboard.propTypes = {
-	fetchAccount: PropTypes.func.isRequired,
-};
+Dashboard.propTypes = {};
 
 const mapStateToProps = createStructuredSelector({
 	dashboard: makeSelectDashboard(),

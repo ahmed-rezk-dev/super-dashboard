@@ -15,7 +15,9 @@ const TriggerBtn = styled(Button)`
 	color: rgba(0, 0, 0, 0.65);
 	border: 0;
 	margin-left: 1rem;
-	line-height: 0;
+	.anticon svg {
+		display: block;
+	}
 `;
 const BreadcrumbContainer = styled(Breadcrumb)`
 	margin: 0 1rem;

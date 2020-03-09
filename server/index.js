@@ -15,15 +15,17 @@ const { resolve } = require('path');
 const app = express();
 
 // Backend Files Watcher
-const watcher = chokidar.watch('./server', { persistent: true });
-watcher.on('ready', () => {
-	watcher.on('all', (event, path) => {
-		console.log('Clearing /server/ module cache from server =>', event, path);
-		Object.keys(require.cache).forEach(id => {
-			if (/[\/\\]server[\/\\]/.test(id)) delete require.cache[id];
+if (isDev) {
+	const watcher = chokidar.watch('./server', { persistent: true });
+	watcher.on('ready', () => {
+		watcher.on('all', (event, path) => {
+			console.log('Clearing /server/ module cache from server =>', event, path);
+			Object.keys(require.cache).forEach(id => {
+				if (/[\/\\]server[\/\\]/.test(id)) delete require.cache[id];
+			});
 		});
 	});
-});
+}
 
 // Backend, e.g. an API
 app.use((req, res, next) => {

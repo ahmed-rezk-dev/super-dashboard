@@ -51,7 +51,7 @@ export default function NotFound({ location, history }) {
 				{props => <ErrorIcon style={props} component={SpiderSvg} />}
 			</Spring>
 			<ErrorTopContainer>
-				<StatusText>{state.status}</StatusText>
+				<StatusText>{state ? state.status : 404}</StatusText>
 				<Separator>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -69,14 +69,13 @@ export default function NotFound({ location, history }) {
 				</Separator>
 			</ErrorTopContainer>
 			<Row justify="center">
-				<Col span={24}>{/* <StatusText>{state.status}</StatusText> */}</Col>
 				<Col span={24}>
 					<ErrorText>
 						<FormattedMessage {...messages.text_0} />
 					</ErrorText>
 				</Col>
 				<Col span={24}>
-					<ErrorDesc>{state.msg}</ErrorDesc>
+					<ErrorDesc>{state ? state.msg : 'Page Not Found!'}</ErrorDesc>
 				</Col>
 				<Button onClick={() => history.push('/')} size="large">
 					<FormattedMessage {...messages.go_back} />

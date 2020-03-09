@@ -89,6 +89,10 @@ userSchema.methods.gravatar = function gravatar(size) {
 	return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
 };
 
-const User = mongoose.model('User', userSchema);
-
+let User = null;
+try {
+	User = mongoose.model('User', userSchema);
+} catch (e) {
+	User = mongoose.model('User');
+}
 module.exports = User;

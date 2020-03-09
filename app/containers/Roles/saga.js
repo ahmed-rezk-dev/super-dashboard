@@ -1,5 +1,6 @@
 import { call, put, takeLatest, all } from 'redux-saga/effects';
 import { message } from 'antd';
+import errorsHandler from '../../utils/errorsHandler';
 import {
 	ROLES_REQUEST,
 	ROLES_DELETE,
@@ -19,8 +20,12 @@ import {
 
 // FETCH
 function* fetchRoles() {
-	const response = yield call(Api.getRoles);
-	yield put(rolesSuccess(response.data.data));
+	try {
+		const response = yield call(Api.getRoles);
+		yield put(rolesSuccess(response.data.data));
+	} catch (error) {
+		errorsHandler(error.response);
+	}
 }
 
 // ADD

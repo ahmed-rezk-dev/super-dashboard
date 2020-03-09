@@ -9,9 +9,13 @@ const resourceSchema = new mongoose.Schema(
 		},
 		permissions: { type: Object },
 	},
-	{ timestamps: true },
+	{ timestamps: true }
 );
 
-const Resource = mongoose.model('Resource', resourceSchema);
-
+let Resource = null;
+try {
+	Resource = mongoose.model('Resource', resourceSchema);
+} catch (e) {
+	Resource = mongoose.model('Resource');
+}
 module.exports = Resource;

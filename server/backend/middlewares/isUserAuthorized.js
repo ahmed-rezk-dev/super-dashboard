@@ -19,7 +19,7 @@ const isUserAuthorized = ({ method, user, baseUrl }, res, next) => {
 		}
 
 		const userResources = user.role.resources.find(
-			({ route }) => route === currentUrlPath,
+			({ route }) => route === currentUrlPath
 		);
 
 		if (userResources) {

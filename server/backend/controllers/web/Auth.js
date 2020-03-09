@@ -58,6 +58,7 @@ exports.postLogin = (req, res, next) => {
 				if (isMatch) {
 					// Sign token
 					const [newToken, newRefreshToken] = passportConfig.createTokens(user);
+					console.log('newToken', newToken);
 					res.status(200).json({
 						status: 'success',
 						msg: 'Success! You are logged in.',

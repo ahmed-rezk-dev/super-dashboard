@@ -40,7 +40,7 @@ function Navbar({ collapsed, toggle, history, currentRoute }) {
 									ghost
 								/>
 							</Col>
-							<Col span={21}>
+							<Col xs={2} sm={4} md={6} lg={19} xl={21} xxl={21}>
 								<CustomBreadcrumb
 									history={history}
 									currentRoute={currentRoute}

@@ -42,7 +42,8 @@
     "test": "cross-env NODE_ENV=test jest --coverage",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "prettify": "prettier --write"
+	"prettify": "prettier --write",
+	"heroku-postbuild": "npm install --only=dev && npm install && npm run build"
   },
   "browserslist": [
     "last 2 versions",
@@ -186,5 +187,6 @@
     "webpack-hot-middleware": "2.25.0",
     "webpack-pwa-manifest": "4.2.0",
     "whatwg-fetch": "3.0.0"
-  }
+  },
+  "proxy": "http://localhost:8080"
 }

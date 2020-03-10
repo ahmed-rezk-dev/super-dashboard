@@ -8,8 +8,8 @@
   },
   "engines": {
 	"npm": ">=5",
-	"yarn": "10.16.x",
-    "node": ">=8.15.1"
+	"yarn": ">=1.19.x",
+    "node": ">=10.16.x"
   },
   "author": "Max Stoiber",
   "license": "MIT",

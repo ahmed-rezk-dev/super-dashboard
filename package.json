@@ -7,7 +7,8 @@
     "url": "git://github.com/react-boilerplate/react-boilerplate.git"
   },
   "engines": {
-    "npm": ">=5",
+	"npm": ">=5",
+	"yarn": "10.16.x",
     "node": ">=8.15.1"
   },
   "author": "Max Stoiber",
@@ -116,7 +117,8 @@
     "sanitize.css": "11.0.0",
 	"styled-components": "5.0.1",
 	 "webpack": "4.42.0",
-	 "html-webpack-plugin": "3.2.0"
+	 "html-webpack-plugin": "3.2.0",
+	 "circular-dependency-plugin": "5.2.0"
   },
   "devDependencies": {
     "@babel/cli": "7.8.4",
@@ -139,7 +141,6 @@
     "babel-plugin-react-intl": "5.1.18",
     "babel-plugin-styled-components": "1.10.7",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
-    "circular-dependency-plugin": "5.2.0",
     "compare-versions": "3.6.0",
     "compression-webpack-plugin": "^3.1.0",
     "coveralls": "3.0.9",

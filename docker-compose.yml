@@ -1,0 +1,17 @@
+version: '3'
+services:
+  mongo:
+    image: mongo:3.6
+  web:
+    build: .
+    ports:
+      - '8080:8080'
+    environment:
+      - MONGODB_URI=mongodb://reactjs:123456asd@cluster0-shard-00-00-a72w7.mongodb.net:27017,cluster0-shard-00-01-a72w7.mongodb.net:27017,cluster0-shard-00-02-a72w7.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    volumes:
+      - .:/super-dashboard
+      - /super-dashboard/node_modules

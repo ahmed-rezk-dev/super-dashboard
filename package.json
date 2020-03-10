@@ -7,8 +7,8 @@
     "url": "git://github.com/react-boilerplate/react-boilerplate.git"
   },
   "engines": {
-	"npm": ">=5",
-	"yarn": ">=1.19.x",
+    "npm": ">=5",
+    "yarn": ">=1.19.x",
     "node": ">=10.16.x"
   },
   "author": "Max Stoiber",
@@ -72,6 +72,7 @@
     "bcrypt": "^4.0.1",
     "chalk": "^3.0.0",
     "chokidar": "^3.3.1",
+    "circular-dependency-plugin": "5.2.0",
     "compression": "1.7.4",
     "connect-mongo": "^3.2.0",
     "connected-react-router": "6.7.0",
@@ -84,6 +85,7 @@
     "fontfaceobserver": "2.1.0",
     "history": "4.10.1",
     "hoist-non-react-statics": "3.3.2",
+    "html-webpack-plugin": "3.2.0",
     "immer": "6.0.0",
     "intl": "1.2.5",
     "invariant": "2.2.4",
@@ -104,6 +106,7 @@
     "prop-types": "15.7.2",
     "react": "16.13.0",
     "react-apexcharts": "^1.3.6",
+    "react-app-polyfill": "1.0.6",
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "16.13.0",
     "react-helmet": "6.0.0-beta",
@@ -115,12 +118,10 @@
     "redux-saga": "1.1.3",
     "reselect": "4.0.0",
     "sanitize.css": "11.0.0",
-	"styled-components": "5.0.1",
-	 "webpack": "4.42.0",
-	 "html-webpack-plugin": "3.2.0",
-	 "circular-dependency-plugin": "5.2.0",
-	 "react-app-polyfill": "1.0.6",
-	"webpack-dev-middleware": "3.7.2",
+    "styled-components": "5.0.1",
+    "validator": "^12.2.0",
+    "webpack": "4.42.0",
+    "webpack-dev-middleware": "3.7.2",
     "webpack-hot-middleware": "2.25.0"
   },
   "devDependencies": {

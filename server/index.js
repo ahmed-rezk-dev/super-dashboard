@@ -39,7 +39,7 @@ setup(app, {
 });
 
 // get the intended host and port number, use localhost and port 3000 if not provided
-const customHost = argv.host || process.env.HOST;
+const customHost = argv.host || process.env.HOST || '0.0.0.0';
 const host = customHost || null; // Let http.Server use its default IPv6/4 host
 const prettyHost = customHost || 'localhost';
 
@@ -51,7 +51,7 @@ app.get('*.js', (req, res, next) => {
 });
 
 // Start your app.
-app.listen(8080, '0.0.0.0', async err => {
+app.listen(port, host, async err => {
 	if (err) {
 		return logger.error(err.message);
 	}

@@ -10,3 +10,7 @@ yarn.lock
 .DS_Store
 npm-debug.log
 .idea
+.undodir/
+Session.vim
+rooster.vim
+term

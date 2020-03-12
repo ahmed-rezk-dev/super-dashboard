@@ -33,6 +33,7 @@ import {
 	toggleAddModal,
 	toggleEditModal,
 } from './actions';
+import styled from 'styled-components';
 export function Roles({
 	fetchRoles,
 	roles,
@@ -133,10 +134,14 @@ export function Roles({
 		},
 	];
 
+	const AddButton = styled(Button)`
+		display: block;
+		margin: 1rem auto;
+	`;
+
 	return (
 		<div>
-			<Button
-				className="d-flex align-items-center mx-auto my-3"
+			<AddButton
 				type="primary"
 				size="large"
 				title="Add New"
@@ -144,7 +149,7 @@ export function Roles({
 				onClick={() => toggleAddModalAction()}
 			>
 				Add New
-			</Button>
+			</AddButton>
 			<Card>
 				<Table dataSource={roles.data} columns={columns} rowKey="_id" />
 			</Card>

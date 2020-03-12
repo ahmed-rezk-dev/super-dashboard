@@ -3,7 +3,6 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 // const passport = require('passport');
 // const jwt = require('jsonwebtoken');
-const _ = require('lodash');
 const validator = require('validator');
 const mailChecker = require('mailchecker');
 const User = require('../../models/User');
@@ -47,10 +46,10 @@ exports.postLogin = (req, res, next) => {
 					msg: `Email ${req.body.email} not found.`,
 				});
 			}
-			user.comparePassword(req.body.password, (err, isMatch) => {
+			return user.comparePassword(req.body.password, (error, isMatch) => {
 				console.log('isMatch', isMatch);
-				if (err) {
-					if (err) {
+				if (error) {
+					if (error) {
 						return next(err);
 					}
 				}
@@ -58,19 +57,17 @@ exports.postLogin = (req, res, next) => {
 				if (isMatch) {
 					// Sign token
 					const [newToken, newRefreshToken] = passportConfig.createTokens(user);
-					console.log('newToken', newToken);
-					res.status(200).json({
+					return res.status(200).json({
 						status: 'success',
 						msg: 'Success! You are logged in.',
 						token: newToken,
 						refreshToken: newRefreshToken,
 					});
-				} else {
-					return res.status(400).json({
-						status: 'error',
-						msg: 'Invalid password.',
-					});
 				}
+				return res.status(400).json({
+					status: 'error',
+					msg: 'Invalid password.',
+				});
 			});
 		});
 };

@@ -108,6 +108,17 @@ h6 {
 h1 {
 	font-weight: 600;
 }
+.anticon {
+	svg {
+		display: block;
+	}
+}
+.main-spin {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+	transform: translate(-50%, -50%);
+}
 `;
 
 export default theme;

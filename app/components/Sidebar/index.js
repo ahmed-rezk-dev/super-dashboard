@@ -189,6 +189,12 @@ const Sidebar = ({ toggle, collapsed, routes, history, currentRoute }) => {
 								mode="inline"
 							>
 								{links}
+								<MenuItem key="/error">
+									<NavLink to="/error">
+										<Icons.WarningOutlined />
+										<span>404 page</span>
+									</NavLink>
+								</MenuItem>
 							</SiderMenu>
 						</MenuContainer>
 					</>

@@ -21,6 +21,7 @@ const Logo = styled(animated.div)`
 	will-change: transform;
 	position: fixed;
 `;
+
 const AvatarImg = styled(animated.img)`
 	background-color: ${props => props.theme.colors.white};
 	background-clip: initial;
@@ -31,12 +32,14 @@ const AvatarImg = styled(animated.img)`
 		fade(${props => props.theme.colors.layoutHeaderBackground}, 80%);
 	object-fit: cover;
 `;
+
 const UsernameTitle = styled(animated.h3)`
 	margin: 0.5rem 0 0;
 	color: ${props => props.theme.colors.secondaryColor};
 	text-align: center;
 	font-weight: lighter;
 `;
+
 const UserTypeTitle = styled(animated.small)`
 	text-align: center;
 	color: ${props => props.theme.colors.normalColor};
@@ -76,6 +79,9 @@ const MenuItem = styled(Menu.Item)`
 		color: ${props => props.theme.colors.white};
 		display: inline-flex !important;
 		align-items: center;
+		.anticon {
+			margin-right: 0.5rem !important;
+		}
 	}
 	&::after {
 		transform: none;
@@ -109,16 +115,21 @@ const SubMenuContainer = styled(SubMenu)`
 		}
 	}
 `;
+
 const SubMenuTitle = styled.span`
 	color: ${props => props.theme.colors.white};
 	display: inline-flex !important;
 	align-items: center;
 `;
+
 const SubMenuItem = styled(Menu.Item)`
 	border-radius: 1rem;
 	padding-left: 1rem !important;
 	a {
 		display: inline-flex !important;
+		.anticon {
+			margin-right: 0.5rem !important;
+		}
 		align-items: center;
 	}
 	&::after {

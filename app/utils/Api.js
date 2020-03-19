@@ -11,7 +11,7 @@ export const api = axios.create({
 	// base URL is read from the "constructor"
 	baseURL,
 	// 10 second timeout...
-	timeout: 1000,
+	// timeout: 1000,
 });
 
 // Api interceptors
@@ -103,6 +103,16 @@ const create = () => {
 	const phonesValidation = data => api.post('phones/validation', data);
 	const getAccount = () => api.get('account');
 
+	// Maps
+	const getPlace = keyword =>
+		api.get(
+			`https://nominatim.openstreetmap.org/search?q=${keyword}&format=json&limit=5`
+		);
+	const getPlaceReverse = query =>
+		api.get(
+			`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${query.lat}&lon=${query.lng}`
+		);
+
 	// ------
 	// STEP 3
 	// ------
@@ -150,6 +160,8 @@ const create = () => {
 		addRoles,
 		editRoles,
 		deleteRoles,
+		getPlace,
+		getPlaceReverse,
 	};
 };
 

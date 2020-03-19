@@ -1,0 +1,13 @@
+/*
+ *
+ * MapTest constants
+ *
+ */
+
+export const GET_PLACE_ACTION = 'app/MapTest/GET_PLACE_ACTION';
+export const GET_PLACE_SUCCESS_ACTION = 'app/MapTest/GET_PLACE_SUCCESS_ACTION';
+export const GET_PLACE_REVERSE_ACTION = 'app/MapTest/GET_PLACE_REVERSE_ACTION';
+export const GET_PLACE_REVERSE_SUCCESS_ACTION =
+	'app/MapTest/GET_PLACE_REVERSE_SUCCESS_ACTION';
+export const GET_PLACE_ERROR_ACTION = 'app/MapTest/GET_PLACE_ERROR_ACTION';
+export const GET_PLACE_LOADING_ACTION = 'app/MapTest/GET_PLACE_LOADING_ACTION';

@@ -6,35 +6,56 @@ exports.find = (req, res) => res.status(200).json('find');
 exports.store = (req, res) => res.status(200).json('store');
 
 // Update user
-exports.update = ({ params, body }, res) => {
-	const query = { _id: params.id };
-	console.log('req.user', req.user);
-	User.findById(req.user.id, (err, user) => {
-		if (err) {
-			return next(err);
+exports.update = ({ params, body, user }, res, next) => {
+	User.findById(params.id, (findUserRrr, dbUser) => {
+		// form body
+		const {
+			name,
+			email,
+			gender,
+			address,
+			pastcode,
+			city,
+			county,
+			state,
+			country,
+		} = body;
+		if (findUserRrr) {
+			return next(findUserRrr);
 		}
-		if (user.email !== req.body.email) user.emailVerified = false;
-		user.email = req.body.email || '';
-		user.profile.name = req.body.name || '';
-		user.profile.gender = req.body.gender || '';
-		user.profile.location = req.body.location || '';
-		user.profile.website = req.body.website || '';
-		user.save(err => {
+		if (user.email !== email) dbUser.emailVerified = false;
+
+		// location
+		const location = {
+			address,
+			pastcode,
+			city,
+			county,
+			state,
+			country,
+		};
+		dbUser.email = email || '';
+		dbUser.profile.name = name || '';
+		dbUser.profile.gender = gender || '';
+		dbUser.profile.location = location || '';
+		dbUser.save(err => {
 			if (err) {
 				if (err.code === 11000) {
-					req.flash('errors', {
+					return res.status(400).json({
+						status: 'error',
 						msg:
 							'The email address you have entered is already associated with an account.',
 					});
-					return res.redirect('/account');
 				}
 				return next(err);
 			}
-			req.flash('success', { msg: 'Profile information has been updated.' });
-			res.redirect('/account');
+			return res.status(200).json({
+				status: 'success',
+				msg: 'Profile information has been updated.',
+			});
 		});
+		return res.status(200).json('update');
 	});
-	return res.status(200).json('update');
 };
 
 // Delete user
@@ -42,7 +63,17 @@ exports.delete = (req, res) => res.status(200).json('delete');
 
 // Validate
 exports.validate = Joi.object({
-	email: Joi.string().required(),
+	name: Joi.string().required(),
+	email: Joi.string()
+		.email()
+		.required(),
+	gender: Joi.string().required(),
+	address: Joi.string().required(),
+	pastcode: Joi.number().required(),
+	city: Joi.string().required(),
+	county: Joi.string().required(),
+	state: Joi.string().required(),
+	country: Joi.string().required(),
 });
 exports.parms = Joi.object({
 	id: Joi.string()

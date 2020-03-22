@@ -4,10 +4,41 @@
  *
  */
 
-import { DEFAULT_ACTION } from './constants';
+import {
+	USER_UPDATE_ACTION,
+	USER_SUCCESS_ACTION,
+	USER_ERROR_ACTION,
+	USER_UPDATE_PASSWORD_ACTION,
+} from './constants';
 
-export function defaultAction() {
-  return {
-    type: DEFAULT_ACTION,
-  };
+//User update
+export function userUpdateAction(payload) {
+	return {
+		type: USER_UPDATE_ACTION,
+		payload,
+	};
+}
+
+// User success
+export function userSuccessAction(data) {
+	return {
+		type: USER_SUCCESS_ACTION,
+		data,
+	};
+}
+
+// User error
+export function userErrorAction(payload) {
+	return {
+		type: USER_ERROR_ACTION,
+		payload,
+	};
+}
+
+// User update password
+export function userUpdatePassword(payload) {
+	return {
+		type: USER_UPDATE_PASSWORD_ACTION,
+		payload,
+	};
 }

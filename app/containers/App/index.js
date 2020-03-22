@@ -21,6 +21,7 @@ import PrivateRoute from 'PrivateRoute';
 import 'antd/dist/antd.css';
 import Example from 'components/Example';
 import { ThemeProvider } from 'styled-components';
+import Maps from 'containers/Maps/index';
 import theme, { GlobalStyle } from '../../assets/styles/theme';
 import { setCurrentUser } from './actions';
 import configureStore from '../../configureStore';
@@ -62,6 +63,7 @@ export default function App() {
 							<Route path="/auth/" component={LoginPage} />
 							<PrivateRoute path="/admin" component={HomePage} />
 							<PrivateRoute path="/dashboard" component={Dashboard} />
+							<Route path="/maps" component={Maps} />
 							<Route path="/error" component={NotFoundPage} />
 							<Route component={NotFoundPage} />
 						</Switch>

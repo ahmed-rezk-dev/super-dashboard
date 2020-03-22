@@ -17,7 +17,7 @@ router.post('/login', authController.postLogin);
 router.get(
 	'/account',
 	[passportConfig.isAuthenticatedJwt, isUserAuthorized],
-	authController.getAccount,
+	authController.getAccount
 );
 router.post('/forgot', authController.postForgot);
 router.get('/reset/:token', authController.getReset);
@@ -31,13 +31,13 @@ router.use('/users', [isUserAuthorized], userRoutes);
 router.use(
 	'/roles',
 	[passportConfig.isAuthenticatedJwt, isUserAuthorized],
-	rolesRoutes,
+	rolesRoutes
 );
 // resources
 router.use(
 	'/resources',
 	[passportConfig.isAuthenticatedJwt, isUserAuthorized],
-	resourcesRoutes,
+	resourcesRoutes
 );
 
 // Routes list

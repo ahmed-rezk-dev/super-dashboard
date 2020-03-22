@@ -87,6 +87,7 @@ module.exports = {
 		'no-multi-assign': 0,
 		'no-set-state': 0,
 		'react/no-multi-comp': ['error', { ignoreStateless: true }],
+		camelcase: [0, { properties: 'never' }],
 	},
 	settings: {
 		'import/resolver': {

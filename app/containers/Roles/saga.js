@@ -77,4 +77,14 @@ export default function* rootSaga() {
 		takeLatest(ROLES_EDIT, editRoles),
 		takeLatest(ROLES_DELETE, deleteRoles),
 	]);
+	// import { take, call, put, select } from 'redux-saga/effects';
+	// import { take, call, put, select } from 'redux-saga/effects';
+	// import { take, call, put, select } from 'redux-saga/effects';
+	// import { take, call, put, select } from 'redux-saga/effects';
+	// import { take, call, put, select } from 'redux-saga/effects';
+	// import { take, call, put, select } from 'redux-saga/effects';
+	// import { take, call, put, select } from 'redux-saga/effects';
+	// import { take, call, put, select } from 'redux-saga/effects';
+	// import { take, call, put, select } from 'redux-saga/effects';
+	// import { take, call, put, select } from 'redux-saga/effects';
 }

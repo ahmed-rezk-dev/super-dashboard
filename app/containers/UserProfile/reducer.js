@@ -4,7 +4,12 @@
  *
  */
 import produce from 'immer';
-import { DEFAULT_ACTION } from './constants';
+import {
+	USER_UPDATE_ACTION,
+	USER_SUCCESS_ACTION,
+	USER_ERROR_ACTION,
+	USER_UPDATE_PASSWORD_ACTION,
+} from './constants';
 
 export const initialState = {
 	fetching: false,
@@ -18,9 +23,24 @@ export const initialState = {
 /* eslint-disable default-case, no-param-reassign */
 const userProfileReducer = (state = initialState, action) =>
 	produce(state, draft => {
-		const { type, data, payload } = action;
-		switch (action.type) {
-			case DEFAULT_ACTION:
+		const { type, data, payload, msg } = action;
+		switch (type) {
+			case USER_UPDATE_ACTION:
+				draft.payload = payload;
+				draft.fetching = true;
+				break;
+			case USER_SUCCESS_ACTION:
+				draft.data = data;
+				draft.fetching = false;
+				break;
+			case USER_ERROR_ACTION:
+				draft.payload = payload;
+				draft.error = true;
+				draft.msg = msg;
+				break;
+			case USER_UPDATE_PASSWORD_ACTION:
+				draft.payload = payload;
+				draft.fetching = true;
 				break;
 			default:
 				return draft;

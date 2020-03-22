@@ -13,11 +13,8 @@ import { AimOutlined } from '@ant-design/icons';
 // import { FormattedMessage } from 'react-intl';
 // import messages from './messages';
 
-export const AutoCompleteStyle = styled(AutoComplete)`
-	width: 500px;
-`;
 export const MainContainer = styled.div`
-	margin-top: 2rem;
+	display: flex;
 `;
 
 function PlacesAutoComplete({
@@ -28,9 +25,9 @@ function PlacesAutoComplete({
 	getPlaceReverse,
 	fetching,
 	display_name,
+	formRef,
 }) {
 	const [inputValue, setInputValue] = useState();
-
 	// Select Handler
 	const onSelectHandler = value => {
 		const { lat, lon } = data.find(place => place.display_name === value);
@@ -40,22 +37,23 @@ function PlacesAutoComplete({
 	// Update input value if the location change
 	useEffect(() => {
 		setInputValue(display_name);
+		formRef.current.setFieldsValue({ location: display_name });
 	}, [display_name]);
 
 	return (
 		<MainContainer>
-			<AutoCompleteStyle
+			<AutoComplete
 				options={placesList}
 				onSelect={onSelectHandler}
 				onSearch={seacrhPlaces}
 				value={inputValue}
 				onChange={setInputValue}
 			>
-				<Input size="large" placeholder="Type Your Address." />
-			</AutoCompleteStyle>
+				<Input placeholder="Type Your Address." />
+			</AutoComplete>
 			<Button
 				icon={<AimOutlined />}
-				type="link"
+				type="ghost"
 				onClick={findMeOnMep}
 				loading={fetching}
 			/>
@@ -71,6 +69,7 @@ PlacesAutoComplete.propTypes = {
 	getPlaceReverse: PropTypes.func,
 	fetching: PropTypes.bool,
 	display_name: PropTypes.string,
+	formRef: PropTypes.object,
 };
 
 export default PlacesAutoComplete;

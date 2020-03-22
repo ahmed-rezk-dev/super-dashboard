@@ -30,7 +30,16 @@ const userSchema = new mongoose.Schema(
 		profile: {
 			name: String,
 			gender: String,
-			location: String,
+			location: {
+				lat: Number,
+				lng: Number,
+				address: String,
+				city: String,
+				postcode: Number,
+				county: String,
+				state: String,
+				country: String,
+			},
 			website: String,
 			picture: String,
 		},

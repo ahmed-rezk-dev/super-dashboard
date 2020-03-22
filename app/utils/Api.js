@@ -81,7 +81,7 @@ const create = () => {
 
 	// users
 	const getUserProfile = data => api.get('user/profile', {}, { headers: data });
-	const postUserUpdate = data => api.post('update/user', data);
+	const postUserUpdate = data => api.post(`users/${data._id}`, data);
 	const postRegister = data => api.post('register', data);
 	const postChangePassword = data => api.post('password/change', data);
 	const getUserSettings = data => api.get('users/settings', data);

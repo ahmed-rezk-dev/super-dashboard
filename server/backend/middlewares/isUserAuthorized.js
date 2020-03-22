@@ -6,6 +6,7 @@ const httpMethodsMapper = {
 };
 
 const isUserAuthorized = ({ method, user, baseUrl }, res, next) => {
+	console.log('user:', user);
 	const isHttpMethodNotAllowed = !httpMethodsMapper.hasOwnProperty(method);
 	const baseUrlToArray = baseUrl.split('/');
 	const currentUrlPath = baseUrlToArray[baseUrlToArray.length - 1];
@@ -18,7 +19,16 @@ const isUserAuthorized = ({ method, user, baseUrl }, res, next) => {
 			});
 		}
 
-		const userResources = user.role.resources.find(
+		const userResourcesException = [
+			{
+				route: 'users',
+				permissions: { read: true, create: true, write: true, delete: false },
+			},
+		];
+
+		const margeResources = [...user.role.resources, ...userResourcesException];
+
+		const userResources = margeResources.find(
 			({ route }) => route === currentUrlPath
 		);
 

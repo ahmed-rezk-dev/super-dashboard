@@ -119,6 +119,16 @@ h1 {
   top: 50%;
 	transform: translate(-50%, -50%);
 }
+.errorsHandlerContainer {
+	display: block;
+	padding: 1rem 5rem 0.5rem;
+	li {
+		width: 100%;
+		text-align: left;
+		line-height: 2rem;
+		font-size: 1rem;
+	}
+}
 `;
 
 export default theme;

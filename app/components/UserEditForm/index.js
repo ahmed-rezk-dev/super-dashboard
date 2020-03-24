@@ -4,11 +4,10 @@
  *
  */
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 import { Form, Input, Row, Button, Col, Select } from 'antd';
-import { compose } from 'redux';
 import CustomMap from 'components/CustomMap';
 import PlacesAutoComplete from 'components/PlacesAutoComplete';
 
@@ -40,7 +39,7 @@ const tailFormItemLayout = {
 const { Option } = Select;
 
 function UserEditForm({
-	fetchaing,
+	userFetching,
 	initialValues,
 	mapData,
 	getPlaceReverse,
@@ -49,20 +48,19 @@ function UserEditForm({
 	updateUser,
 }) {
 	const { currentAddress } = mapData;
-
-	const { location } = initialValues;
 	// Map Data
 	const {
 		placesList,
 		data,
 		fetching,
-		currentAddress: {
-			lat,
-			lon,
-			display_name,
-			address: { city, county, state, postcode, country },
-		},
+		currentAddress: { display_name, lat, lon },
 	} = mapData;
+
+	// latlon of database
+	const latlon = {
+		lat: lat || initialValues.lat,
+		lng: lon || initialValues.lng,
+	};
 
 	// Find me on me
 	const mapRef = useRef(CustomMap);
@@ -77,24 +75,32 @@ function UserEditForm({
 	// Form Ref
 	const formRef = useRef();
 	useEffect(() => {
-		formRef.current.setFieldsValue(currentAddress.address);
+		const form = formRef.current;
+		if (form) {
+			if (currentAddress.display_name !== '') {
+				form.setFieldsValue({
+					...currentAddress.address,
+					address: currentAddress.display_name,
+				});
+			} else {
+				form.setFieldsValue(initialValues);
+			}
+		}
 	}, [currentAddress]);
 
 	// handle Submit
 	const handleSubmitForm = values => {
-		console.log('values:', values);
-		updateUser(values);
+		const mergeValues = {
+			values: { ...values, ...latlon },
+			_id: initialValues._id,
+		};
+		updateUser(mergeValues);
 	};
 
 	return (
 		<Row>
 			<Col span={12}>
-				<Form
-					{...formItemLayout}
-					onFinish={handleSubmitForm}
-					initialValues={initialValues}
-					ref={formRef}
-				>
+				<Form {...formItemLayout} onFinish={handleSubmitForm} ref={formRef}>
 					{/* Name */}
 					<Form.Item
 						label="Name"
@@ -124,10 +130,10 @@ function UserEditForm({
 						<Input />
 					</Form.Item>
 
-					{/* Gander */}
+					{/* Gender */}
 					<Form.Item
-						label="Gander"
-						name="gander"
+						label="Gender"
+						name="gender"
 						hasFeedback
 						rules={[
 							{
@@ -144,7 +150,7 @@ function UserEditForm({
 
 					{/* Address */}
 					<Form.Item
-						name="location"
+						name="address"
 						label="Address"
 						hasFeedback
 						rules={[{ required: true, message: 'Please input your address!' }]}
@@ -157,7 +163,7 @@ function UserEditForm({
 							findMeOnMep={findMeOnMep}
 							data={data}
 							fetching={fetching}
-							display_name={display_name}
+							display_name={initialValues.address || display_name}
 							formRef={formRef}
 						/>
 					</Form.Item>
@@ -238,7 +244,7 @@ function UserEditForm({
 							type="primary"
 							htmlType="submit"
 							size="large"
-							loading={fetchaing}
+							loading={userFetching || fetching}
 						>
 							Update
 						</Button>
@@ -250,6 +256,7 @@ function UserEditForm({
 					mapRef={mapRef}
 					mapData={mapData}
 					getPlaceReverse={getPlaceReverse}
+					latlonDB={latlon}
 				/>
 			</Col>
 		</Row>
@@ -264,9 +271,10 @@ UserEditForm.propTypes = {
 	getPlaceReverse: PropTypes.func,
 	fetching: PropTypes.bool,
 	display_name: PropTypes.string,
-	fetchaing: PropTypes.bool,
+	userFetching: PropTypes.bool,
 	initialValues: PropTypes.object,
 	mapData: PropTypes.object,
+	formRef: PropTypes.object,
 	loadingAction: PropTypes.func,
 	updateUser: PropTypes.func,
 };

@@ -6,7 +6,6 @@ const httpMethodsMapper = {
 };
 
 const isUserAuthorized = ({ method, user, baseUrl }, res, next) => {
-	console.log('user:', user);
 	const isHttpMethodNotAllowed = !httpMethodsMapper.hasOwnProperty(method);
 	const baseUrlToArray = baseUrl.split('/');
 	const currentUrlPath = baseUrlToArray[baseUrlToArray.length - 1];

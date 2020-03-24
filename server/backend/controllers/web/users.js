@@ -1,60 +1,66 @@
 const Joi = require('joi');
 const User = require('../../models/User');
+const passportConfig = require('../../config/passport.js');
 
 exports.index = (req, res) => res.status(200).json('index');
 exports.find = (req, res) => res.status(200).json('find');
 exports.store = (req, res) => res.status(200).json('store');
 
 // Update user
-exports.update = ({ params, body, user }, res, next) => {
-	User.findById(params.id, (findUserRrr, dbUser) => {
-		// form body
-		const {
-			name,
-			email,
-			gender,
-			address,
-			pastcode,
-			city,
-			county,
-			state,
-			country,
-		} = body;
-		if (findUserRrr) {
-			return next(findUserRrr);
-		}
-		if (user.email !== email) dbUser.emailVerified = false;
+exports.update = async ({ params, body, user }, res, next) => {
+	// request body
+	const {
+		name,
+		email,
+		gender,
+		lat,
+		lng,
+		address,
+		postcode,
+		city,
+		county,
+		state,
+		country,
+	} = body;
+	const findUser = await User.findById(params.id)
+		.populate({ path: 'role', populate: { path: 'resources' } })
+		.exec();
 
-		// location
-		const location = {
-			address,
-			pastcode,
-			city,
-			county,
-			state,
-			country,
-		};
-		dbUser.email = email || '';
-		dbUser.profile.name = name || '';
-		dbUser.profile.gender = gender || '';
-		dbUser.profile.location = location || '';
-		dbUser.save(err => {
-			if (err) {
-				if (err.code === 11000) {
-					return res.status(400).json({
-						status: 'error',
-						msg:
-							'The email address you have entered is already associated with an account.',
-					});
-				}
-				return next(err);
-			}
-			return res.status(200).json({
-				status: 'success',
-				msg: 'Profile information has been updated.',
+	if (user.email !== email) findUser.emailVerified = false;
+
+	// location
+	const location = {
+		lat,
+		lng,
+		address,
+		postcode,
+		city,
+		county,
+		state,
+		country,
+	};
+	findUser.email = email;
+	findUser.profile.name = name;
+	findUser.profile.gender = gender;
+	findUser.profile.location = location;
+
+	const savedUser = await findUser.save().catch(err => {
+		if (err.code === 11000) {
+			return res.status(400).json({
+				status: 'error',
+				msg:
+					'The email address you have entered is already associated with an account.',
 			});
-		});
-		return res.status(200).json('update');
+		}
+		return next(err);
+	});
+
+	const [newToken, newRefreshToken] = passportConfig.createTokens(savedUser);
+	return res.status(200).json({
+		status: 'success',
+		msg: 'Profile information has been updated.',
+		token: newToken,
+		refreshToken: newRefreshToken,
 	});
 };
 
@@ -68,14 +74,16 @@ exports.validate = Joi.object({
 		.email()
 		.required(),
 	gender: Joi.string().required(),
+	lat: Joi.number().required(),
+	lng: Joi.number().required(),
 	address: Joi.string().required(),
-	pastcode: Joi.number().required(),
+	postcode: Joi.number().required(),
 	city: Joi.string().required(),
 	county: Joi.string().required(),
 	state: Joi.string().required(),
 	country: Joi.string().required(),
 });
-exports.parms = Joi.object({
+exports.params = Joi.object({
 	id: Joi.string()
 		.min(1)
 		.required(),

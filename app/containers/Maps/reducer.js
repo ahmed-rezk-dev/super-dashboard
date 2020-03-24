@@ -19,8 +19,8 @@ export const initialState = {
 	data: [],
 	placesList: [],
 	currentAddress: {
-		lat: -34,
-		lon: 151,
+		lat: null,
+		lon: null,
 		display_name: '',
 		address: {
 			city: '',

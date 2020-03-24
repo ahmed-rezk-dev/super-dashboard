@@ -16,16 +16,17 @@ export const MapStyle = styled(Map)`
 	height: 500px;
 `;
 
-function CustomMap({ mapData, getPlaceReverse, mapRef }) {
+function CustomMap({ mapData, getPlaceReverse, mapRef, latlonDB }) {
 	const {
 		currentAddress: { lat, lon, display_name },
 		initialPosition,
 	} = mapData;
 
-	const latlng = {
-		lat,
-		lon,
-	};
+	// const latlng = {
+	// 	lat: lat || latlonDB.lat,
+	// 	lon: lon || latlonDB.lng,
+	// };
+	const center = [latlonDB.lat, latlonDB.lng];
 
 	// Location found Handler
 	const onLocationfoundHandler = value => {
@@ -33,7 +34,7 @@ function CustomMap({ mapData, getPlaceReverse, mapRef }) {
 	};
 	return (
 		<MapStyle
-			center={[lat, lon]}
+			center={center}
 			zoom={20}
 			animate
 			onLocationfound={onLocationfoundHandler}
@@ -45,7 +46,7 @@ function CustomMap({ mapData, getPlaceReverse, mapRef }) {
 			/>
 			{/* Custom Marker */}
 			<CustomMarker
-				latlng={latlng}
+				latlng={latlonDB}
 				initialPosition={initialPosition}
 				getPlaceReverse={getPlaceReverse}
 				display_name={display_name}
@@ -58,6 +59,7 @@ CustomMap.propTypes = {
 	mapData: PropTypes.object,
 	getPlaceReverse: PropTypes.func,
 	mapRef: PropTypes.object,
+	latlonDB: PropTypes.object,
 };
 
 export default CustomMap;

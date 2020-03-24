@@ -26,7 +26,11 @@ router.post('/reset/:token', authController.postReset);
 // Public
 router.get('/routes', publicController.routesList);
 // Users
-router.use('/users', [isUserAuthorized], userRoutes);
+router.use(
+	'/users',
+	[passportConfig.isAuthenticatedJwt, isUserAuthorized],
+	userRoutes
+);
 //
 router.use(
 	'/roles',

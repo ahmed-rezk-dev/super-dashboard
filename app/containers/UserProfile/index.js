@@ -27,7 +27,9 @@ import {
 	getPlaceLoadingAction,
 } from 'containers/Maps/actions';
 import makeSelectMap from 'containers/Maps/selectors';
-import makeSelectUserProfile from './selectors';
+import makeSelectUserProfile, {
+	makeSelectUserProfileDomain,
+} from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import mapReducer from '../Maps/reducer';
@@ -89,6 +91,7 @@ const CardTitle = styled.div`
 // #endregion
 
 export function UserProfile({
+	userUpdateState,
 	user,
 	mapData,
 	getPlaceReverse,
@@ -105,16 +108,16 @@ export function UserProfile({
 
 	const initialValues = {
 		...location,
-		name: user.profile.name,
+		...profile,
 		email: user.email,
-		gender: user.profile.gender,
+		_id: user._id,
 	};
 
 	const contentList = useCallback(
 		{
 			tab1: (
 				<UserEditForm
-					fetching={user.fetching}
+					userFetching={userUpdateState.fetching}
 					initialValues={initialValues}
 					mapData={mapData}
 					getPlaceReverse={getPlaceReverse}
@@ -125,7 +128,7 @@ export function UserProfile({
 			),
 			tab2: <p>content2</p>,
 		},
-		[mapData]
+		[mapData, userUpdateState]
 	);
 
 	const [uploadeState, setUploadeState] = useState({ loading: false });
@@ -224,6 +227,7 @@ export function UserProfile({
 }
 
 UserProfile.propTypes = {
+	userUpdateState: PropTypes.object,
 	user: PropTypes.object,
 	mapData: PropTypes.object,
 	loadingAction: PropTypes.func,
@@ -234,6 +238,7 @@ UserProfile.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
 	user: makeSelectUserProfile(),
+	userUpdateState: makeSelectUserProfileDomain(),
 	mapData: makeSelectMap(),
 });
 

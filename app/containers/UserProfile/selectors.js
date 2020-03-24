@@ -18,6 +18,8 @@ const selectUserOFGlobal = state => state.global.auth.user || initialState;
 
 const makeSelectUserProfile = () =>
 	createSelector(selectUserOFGlobal, substate => substate);
+const makeSelectUserProfileDomain = () =>
+	createSelector(selectUserProfileDomain, substate => substate);
 
 export default makeSelectUserProfile;
-export { selectUserProfileDomain };
+export { makeSelectUserProfileDomain };

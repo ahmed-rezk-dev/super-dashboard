@@ -36,6 +36,7 @@ const userProfileReducer = (state = initialState, action) =>
 			case USER_ERROR_ACTION:
 				draft.payload = payload;
 				draft.error = true;
+				draft.fetching = false;
 				draft.msg = msg;
 				break;
 			case USER_UPDATE_PASSWORD_ACTION:

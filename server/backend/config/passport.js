@@ -88,7 +88,7 @@ exports.isAuthenticatedJwt = (req, res, next) => {
 			}
 		});
 
-		console.error('Error in jwt isAuthenticatedJwt function: => jwt expired');
+		// console.error('Error in jwt isAuthenticatedJwt function: => jwt expired');
 		return;
 	}
 

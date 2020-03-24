@@ -34,14 +34,20 @@ function PlacesAutoComplete({
 		getPlaceReverse({ lat, lng: lon });
 	};
 
-	// Update input value if the location change
+	// Update input value if the address change
 	useEffect(() => {
 		setInputValue(display_name);
-		formRef.current.setFieldsValue({ location: display_name });
+		formRef.current.setFieldsValue({ address: display_name });
 	}, [display_name]);
 
 	return (
 		<MainContainer>
+			<Button
+				icon={<AimOutlined />}
+				type="ghost"
+				onClick={findMeOnMep}
+				loading={fetching}
+			/>
 			<AutoComplete
 				options={placesList}
 				onSelect={onSelectHandler}
@@ -51,12 +57,6 @@ function PlacesAutoComplete({
 			>
 				<Input placeholder="Type Your Address." />
 			</AutoComplete>
-			<Button
-				icon={<AimOutlined />}
-				type="ghost"
-				onClick={findMeOnMep}
-				loading={fetching}
-			/>
 		</MainContainer>
 	);
 }

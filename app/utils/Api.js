@@ -82,6 +82,7 @@ const create = () => {
 	// users
 	const getUserProfile = data => api.get('user/profile', {}, { headers: data });
 	const postUserUpdate = data => api.put(`users/${data._id}`, data.values);
+	const postUserUpdateAvatar = data => api.post(`update/user/avatar`, data);
 	const postRegister = data => api.post('register', data);
 	const postChangePassword = data => api.post('password/change', data);
 	const getUserSettings = data => api.get('users/settings', data);
@@ -162,6 +163,7 @@ const create = () => {
 		deleteRoles,
 		getPlace,
 		getPlaceReverse,
+		postUserUpdateAvatar,
 	};
 };
 

@@ -1,5 +1,8 @@
 import { takeLatest, all, call, put } from 'redux-saga/effects';
-import { USER_UPDATE_ACTION } from 'containers/UserProfile/constants';
+import {
+	USER_UPDATE_ACTION,
+	USER_UPDATE_AVATAR_ACTION,
+} from 'containers/UserProfile/constants';
 import Api from 'utils/Api';
 import {
 	userSuccessAction,
@@ -21,13 +24,35 @@ function* userUpdate({ payload }) {
 			put(userSuccessAction(data)),
 			put(setCurrentUser(decodedToken)),
 		]);
-	} catch (err) {
-		const { response } = err;
+	} catch (error) {
+		const { response } = error;
 		errorsHandler(response);
 		yield put(userErrorAction(response.data));
 	}
 }
+
+function* userUpdateAvatar({ payload }) {
+	try {
+		const { data } = yield call(Api.userUpdateAvatar, payload);
+		console.log('data', data);
+		message.success(data.msg);
+		// setAuthToken(data.token, data.refreshToken);
+		// const decodedToken = JwtDecode(data.token);
+		// yield all([
+		// 	put(userSuccessAction(data)),
+		// 	put(setCurrentUser(decodedToken)),
+		// ]);
+	} catch (error) {
+		const { response } = error;
+		errorsHandler(response);
+		yield put(userErrorAction(response.data));
+	}
+}
+
 // Individual exports for testing
 export default function* userProfileSaga() {
-	yield all([takeLatest(USER_UPDATE_ACTION, userUpdate)]);
+	yield all([
+		takeLatest(USER_UPDATE_ACTION, userUpdate),
+		takeLatest(USER_UPDATE_AVATAR_ACTION, userUpdateAvatar),
+	]);
 }

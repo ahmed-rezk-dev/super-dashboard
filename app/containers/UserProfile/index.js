@@ -155,7 +155,7 @@ export function UserProfile({
 		return isJpgOrPng && isLt2M;
 	};
 
-	const handleChange = info => {
+	const handleFileChange = info => {
 		if (info.file.status === 'uploading') {
 			setUploadeState({ loading: true });
 			return;
@@ -182,18 +182,19 @@ export function UserProfile({
 		setTabsState({ [type]: key });
 	};
 	const { imageUrl } = uploadeState;
+	console.log('imageUrl:', imageUrl);
 
 	return (
 		<>
 			<StyledCard>
-				<Col span={3}>
+				<Col xs={4} sm={4} md={3} lg={3} xl={2}>
 					<UploadStyled
 						name="avatar"
 						listType="picture-card"
 						showUploadList={false}
 						action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
 						beforeUpload={beforeUpload}
-						onChange={handleChange}
+						onChange={handleFileChange}
 					>
 						{imageUrl ? (
 							<img src={imageUrl} alt="avatar" style={{ width: '100%' }} />

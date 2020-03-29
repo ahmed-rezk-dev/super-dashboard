@@ -67,6 +67,12 @@ exports.update = async ({ params, body, user }, res, next) => {
 // Delete user
 exports.delete = (req, res) => res.status(200).json('delete');
 
+// Update user avatar
+exports.updateAvatar = async (req, res) => {
+	console.log('req', req);
+	return res.status(200).json('Update user picture');
+};
+
 // Validate
 exports.validate = Joi.object({
 	name: Joi.string().required(),

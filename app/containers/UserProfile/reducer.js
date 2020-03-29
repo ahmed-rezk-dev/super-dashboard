@@ -9,6 +9,7 @@ import {
 	USER_SUCCESS_ACTION,
 	USER_ERROR_ACTION,
 	USER_UPDATE_PASSWORD_ACTION,
+	USER_UPDATE_AVATAR_ACTION,
 } from './constants';
 
 export const initialState = {
@@ -38,6 +39,10 @@ const userProfileReducer = (state = initialState, action) =>
 				draft.error = true;
 				draft.fetching = false;
 				draft.msg = msg;
+				break;
+			case USER_UPDATE_AVATAR_ACTION:
+				draft.payload = payload;
+				draft.fetching = true;
 				break;
 			case USER_UPDATE_PASSWORD_ACTION:
 				draft.payload = payload;

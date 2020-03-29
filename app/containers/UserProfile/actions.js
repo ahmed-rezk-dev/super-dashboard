@@ -9,9 +9,10 @@ import {
 	USER_SUCCESS_ACTION,
 	USER_ERROR_ACTION,
 	USER_UPDATE_PASSWORD_ACTION,
+	USER_UPDATE_AVATAR_ACTION,
 } from './constants';
 
-//User update
+// User update
 export function userUpdateAction(payload) {
 	return {
 		type: USER_UPDATE_ACTION,
@@ -31,6 +32,14 @@ export function userSuccessAction(data) {
 export function userErrorAction(payload) {
 	return {
 		type: USER_ERROR_ACTION,
+		payload,
+	};
+}
+
+// User update avatar
+export function userUpdateAvatarAction(payload) {
+	return {
+		type: USER_UPDATE_AVATAR_ACTION,
 		payload,
 	};
 }

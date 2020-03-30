@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo, useState, useCallback } from 'react';
+import React, { memo, useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // import { FormattedMessage } from 'react-intl';
@@ -34,7 +34,7 @@ import reducer from './reducer';
 import saga from './saga';
 import mapReducer from '../Maps/reducer';
 import mapSaga from '../Maps/saga';
-import { userUpdateAction } from './actions';
+import { userUpdateAction, userUpdateCurrentAction } from './actions';
 
 // import messages from './messages';
 
@@ -98,11 +98,23 @@ export function UserProfile({
 	loadingAction,
 	seacrhPlaces,
 	updateUser,
+	userUpdateCurrent,
 }) {
 	useInjectReducer({ key: 'userProfile', reducer });
 	useInjectSaga({ key: 'userProfile', saga });
 	useInjectReducer({ key: 'map', reducer: mapReducer });
 	useInjectSaga({ key: 'map', saga: mapSaga });
+
+	const [uploadeState, setUploadeState] = useState({ loading: false });
+	const [stateTabs, setTabsState] = useState({
+		key: 'tab1',
+		noTitleKey: 'app',
+	});
+
+	useEffect(() => {
+		setUploadeState({ loading: false, imageUrl: user.profile.picture });
+	}, []);
+
 	const { profile } = user;
 	const { location } = profile;
 
@@ -131,12 +143,6 @@ export function UserProfile({
 		[mapData, userUpdateState]
 	);
 
-	const [uploadeState, setUploadeState] = useState({ loading: false });
-	const [stateTabs, setTabsState] = useState({
-		key: 'tab1',
-		noTitleKey: 'app',
-	});
-
 	const getBase64 = (img, callback) => {
 		const reader = new FileReader();
 		reader.addEventListener('load', () => callback(reader.result));
@@ -155,12 +161,17 @@ export function UserProfile({
 		return isJpgOrPng && isLt2M;
 	};
 
-	const handleChange = info => {
+	const handleFileChange = info => {
+		console.log('info:', info);
 		if (info.file.status === 'uploading') {
 			setUploadeState({ loading: true });
 			return;
 		}
 		if (info.file.status === 'done') {
+			userUpdateCurrent({
+				token: info.file.response.token,
+				refreshToken: info.file.response.refreshToken,
+			});
 			// Get this url from response in real world.
 			getBase64(info.file.originFileObj, imageUrl =>
 				setUploadeState({
@@ -181,19 +192,22 @@ export function UserProfile({
 	const onTabChange = (key, type) => {
 		setTabsState({ [type]: key });
 	};
-	const { imageUrl } = uploadeState;
 
+	const customRequest = data => {
+		console.log('data:', data);
+	};
+	const { imageUrl } = uploadeState;
 	return (
 		<>
 			<StyledCard>
-				<Col span={3}>
+				<Col xs={4} sm={4} md={3} lg={3} xl={2}>
 					<UploadStyled
 						name="avatar"
 						listType="picture-card"
 						showUploadList={false}
-						action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+						action={`/api/update/avatar/${user._id}`}
 						beforeUpload={beforeUpload}
-						onChange={handleChange}
+						onChange={handleFileChange}
 					>
 						{imageUrl ? (
 							<img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
@@ -248,6 +262,7 @@ function mapDispatchToProps(dispatch) {
 		getPlaceReverse: value => dispatch(getPlaceReverseAction(value)),
 		loadingAction: () => dispatch(getPlaceLoadingAction(true)),
 		updateUser: data => dispatch(userUpdateAction(data)),
+		userUpdateCurrent: data => dispatch(userUpdateCurrentAction(data)),
 	};
 }
 

@@ -51,7 +51,7 @@ app.get('*.js', (req, res, next) => {
 });
 
 // Start your app.
-app.listen(3000, host, async err => {
+app.listen(8080, host, async err => {
 	// app.listen(port, host, async err => {
 	if (err) {
 		return logger.error(err.message);

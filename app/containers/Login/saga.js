@@ -22,10 +22,12 @@ function* login(action) {
 	try {
 		const response = yield call(Api.postLogin, action.payload);
 		const { data } = response;
-		setAuthToken(data.token, data.refreshToken);
-		const decodedToken = jwtDecode(data.token);
-		message.success(data.msg);
-		yield all([put(loginSuccess(data)), put(setCurrentUser(decodedToken))]);
+		const { token, refreshToken, msg } = data;
+		setAuthToken(token, refreshToken);
+		const decodedToken = jwtDecode(token);
+		const userToAddToRedux = { ...decodedToken, token, refreshToken };
+		message.success(msg);
+		yield all([put(loginSuccess(data)), put(setCurrentUser(userToAddToRedux))]);
 		setTimeout(() => {
 			history.push('/admin/dashboard');
 		}, 1000);

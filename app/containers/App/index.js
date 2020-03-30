@@ -36,8 +36,9 @@ if (localStorage['x-token']) {
 	setAuthToken(token, refreshToken);
 	// Decode token and get user info and exp
 	const decodedToken = jwtDecode(refreshToken);
+	const userToAddToRedux = { ...decodedToken, token, refreshToken };
 	// Set user and isAuthenticated
-	store.dispatch(setCurrentUser(decodedToken));
+	store.dispatch(setCurrentUser(userToAddToRedux));
 	// Check for expired token
 	const currentTime = Date.now() / 1000; // to get in milliseconds
 	const expDate = decodedToken.exp;
@@ -52,24 +53,22 @@ if (localStorage['x-token']) {
 
 export default function App() {
 	return (
-		<div>
-			<ThemeProvider theme={theme}>
-				<GlobalStyle />
-				<Route
-					render={({ location }) => (
-						<Switch location={location}>
-							<Route exact path="/" component={LoginPage} />
-							<Route path="/example" component={Example} />
-							<Route path="/auth/" component={LoginPage} />
-							<PrivateRoute path="/admin" component={HomePage} />
-							<PrivateRoute path="/dashboard" component={Dashboard} />
-							<Route path="/maps" component={Maps} />
-							<Route path="/error" component={NotFoundPage} />
-							<Route component={NotFoundPage} />
-						</Switch>
-					)}
-				/>
-			</ThemeProvider>
-		</div>
+		<ThemeProvider theme={theme}>
+			<GlobalStyle />
+			<Route
+				render={({ location }) => (
+					<Switch location={location}>
+						<Route exact path="/" component={LoginPage} />
+						<Route path="/example" component={Example} />
+						<Route path="/auth/" component={LoginPage} />
+						<PrivateRoute path="/admin" component={HomePage} />
+						<PrivateRoute path="/dashboard" component={Dashboard} />
+						<Route path="/maps" component={Maps} />
+						<Route path="/error" component={NotFoundPage} />
+						<Route component={NotFoundPage} />
+					</Switch>
+				)}
+			/>
+		</ThemeProvider>
 	);
 }

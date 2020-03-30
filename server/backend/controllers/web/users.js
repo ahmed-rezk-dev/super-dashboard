@@ -67,6 +67,33 @@ exports.update = async ({ params, body, user }, res, next) => {
 // Delete user
 exports.delete = (req, res) => res.status(200).json('delete');
 
+// Update user avatar
+exports.updateAvatar = async (req, res) => {
+	const { params, file, headers, protocol } = req;
+	// console.log('file:', file);
+
+	const url = `${protocol}://${req.get('host')}`;
+	const profileImg = `${url}/public/${file.filename}`;
+	console.log('profileImg:', profileImg);
+
+	const findUser = await User.findById(params.id)
+		.populate({ path: 'role', populate: { path: 'resources' } })
+		.exec();
+
+	const filepath = `${headers.host}/server/backend/uploads/pictures/${file.filename}`;
+	findUser.profile.picture = filepath;
+
+	const savedUser = await findUser.save();
+
+	const [newToken, newRefreshToken] = passportConfig.createTokens(savedUser);
+	return res.status(200).json({
+		status: 'success',
+		msg: 'Profile information has been updated.',
+		token: newToken,
+		refreshToken: newRefreshToken,
+	});
+};
+
 // Validate
 exports.validate = Joi.object({
 	name: Joi.string().required(),

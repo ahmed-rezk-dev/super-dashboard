@@ -139,7 +139,8 @@ const Sidebar = ({ toggle, collapsed, routes, history, currentRoute }) => {
 							}}
 						>
 							<AvatarImg
-								src={userImage}
+								// src={userImage} http://0.0.0.0:8080//avatar-5d793ff47177224af40beb06-Untitled-2.jpg
+								src="http://0.0.0.0:8080/server/backend/uploads/pictures/avatar-5d793ff47177224af40beb06-Untitled-2.jpg"
 								style={{
 									width,
 									height,

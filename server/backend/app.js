@@ -15,7 +15,14 @@ const mongoose = require('mongoose');
 const expressStatusMonitor = require('express-status-monitor');
 const multer = require('multer');
 
-const upload = multer({ dest: path.join(__dirname, 'uploads') });
+const storage = multer.diskStorage({
+	destination: path.join(__dirname, 'uploads'),
+	filename(req, file, cb) {
+		cb(null, `${file.fieldname}-${req.params.id}`);
+	},
+});
+
+const upload = multer({ storage });
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
@@ -90,10 +97,10 @@ app.use((req, res, next) => {
 // #region
 const apiController = require('./controllers/api');
 app.get('/api/upload', lusca({ csrf: true }), apiController.getFileUpload);
+// app.post('/api/upload', upload.single('myFile'), apiController.postFileUpload);
 app.post(
-	'/api/upload',
-	upload.single('myFile'),
-	lusca({ csrf: true }),
+	'/api/upload/:id',
+	upload.single('avatar'),
 	apiController.postFileUpload
 );
 // #endregion

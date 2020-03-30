@@ -1,16 +1,28 @@
 const express = require('express');
 
 const router = express.Router();
+const multer = require('multer');
+const path = require('path');
 const passportConfig = require('../config/passport');
 const isUserAuthorized = require('../middlewares/isUserAuthorized');
 const Helper = require('../utils/helper');
 // Controllers
 const authController = require('../controllers/web/Auth');
 const publicController = require('../controllers/web/public');
+const usersController = require('../controllers/web/users');
 // Routes
 const userRoutes = require('./users');
 const rolesRoutes = require('./roles');
 const resourcesRoutes = require('./resources');
+
+const storage = multer.diskStorage({
+	destination: './public/',
+	filename(req, file, cb) {
+		cb(null, `${file.fieldname}-${req.params.id}-${file.originalname}`);
+	},
+});
+
+const upload = multer({ storage });
 
 // ِAuth
 router.post('/login', authController.postLogin);
@@ -25,13 +37,20 @@ router.post('/reset/:token', authController.postReset);
 router.post('/reset/:token', authController.postReset);
 // Public
 router.get('/routes', publicController.routesList);
+
 // Users
 router.use(
 	'/users',
 	[passportConfig.isAuthenticatedJwt, isUserAuthorized],
 	userRoutes
 );
-//
+router.post(
+	'/update/avatar/:id',
+	upload.single('avatar'),
+	usersController.updateAvatar
+);
+
+// roles
 router.use(
 	'/roles',
 	[passportConfig.isAuthenticatedJwt, isUserAuthorized],

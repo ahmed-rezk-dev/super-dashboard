@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
+const url = require('url');
 const passportConfig = require('../config/passport');
 const isUserAuthorized = require('../middlewares/isUserAuthorized');
 const Helper = require('../utils/helper');
@@ -14,7 +16,6 @@ const usersController = require('../controllers/web/users');
 const userRoutes = require('./users');
 const rolesRoutes = require('./roles');
 const resourcesRoutes = require('./resources');
-
 const storage = multer.diskStorage({
 	destination: './public/',
 	filename(req, file, cb) {
@@ -23,6 +24,19 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
+router.get('/getFile', (req, res) => {
+	fs.readFile(
+		path.join(__dirname, `../uploads/${req.query.path}`),
+		(err, content) => {
+			if (err) {
+				res.end('No such file');
+			} else {
+				res.end(content);
+			}
+		}
+	);
+});
 
 // ِAuth
 router.post('/login', authController.postLogin);

@@ -35,7 +35,7 @@ import saga from './saga';
 import mapReducer from '../Maps/reducer';
 import mapSaga from '../Maps/saga';
 import { userUpdateAction, userUpdateCurrentAction } from './actions';
-
+import { getFile } from '../../helpers/Files';
 // import messages from './messages';
 
 const tabList = [
@@ -210,7 +210,11 @@ export function UserProfile({
 						onChange={handleFileChange}
 					>
 						{imageUrl ? (
-							<img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
+							<img
+								src={getFile(imageUrl)}
+								alt="avatar"
+								style={{ width: '100%' }}
+							/>
 						) : (
 							uploadButton
 						)}

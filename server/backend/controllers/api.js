@@ -10,6 +10,6 @@ exports.getFileUpload = (req, res) => {
 };
 
 exports.postFileUpload = (req, res) => {
-	console.log('req', req);
-	return res.status(200).json('Update user picture');
+	req.flash('success', { msg: 'File was uploaded successfully.' });
+	res.redirect('/api/upload');
 };

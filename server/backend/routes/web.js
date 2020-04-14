@@ -4,7 +4,6 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const url = require('url');
 const passportConfig = require('../config/passport');
 const isUserAuthorized = require('../middlewares/isUserAuthorized');
 const Helper = require('../utils/helper');
@@ -17,7 +16,7 @@ const userRoutes = require('./users');
 const rolesRoutes = require('./roles');
 const resourcesRoutes = require('./resources');
 const storage = multer.diskStorage({
-	destination: './public/',
+	destination: './server/uploads/pictures',
 	filename(req, file, cb) {
 		cb(null, `${file.fieldname}-${req.params.id}-${file.originalname}`);
 	},
@@ -27,7 +26,7 @@ const upload = multer({ storage });
 
 router.get('/getFile', (req, res) => {
 	fs.readFile(
-		path.join(__dirname, `../uploads/${req.query.path}`),
+		path.join(__dirname, `../../uploads/${req.query.path}`),
 		(err, content) => {
 			if (err) {
 				res.end('No such file');

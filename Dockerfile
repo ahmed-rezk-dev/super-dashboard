@@ -8,7 +8,8 @@ ENV NODE_ENV development
 COPY .env /super-dashboard/.env
 
 RUN npm install
+RUN npm run build
 
 EXPOSE 8080
 
-ENTRYPOINT ["npm", "start"]
+CMD [ "npm", "run", "start:prod" ]

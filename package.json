@@ -63,7 +63,8 @@
   },
   "pre-commit": "lint:staged",
   "resolutions": {
-    "babel-core": "7.0.0-bridge.0"
+	"babel-core": "7.0.0-bridge.0",
+	"@babel/preset-env": "7.5.5"
   },
   "dependencies": {
     "@babel/polyfill": "7.8.3",
@@ -121,14 +122,14 @@
     "reselect": "4.0.0",
     "sanitize.css": "11.0.0",
     "styled-components": "5.0.1",
-	"validator": "^12.2.0",
-	"@babel/plugin-proposal-numeric-separator": "^7.8.3"
+    "validator": "^12.2.0"
   },
   "devDependencies": {
     "@babel/cli": "7.8.4",
     "@babel/compat-data": "^7.9.0",
     "@babel/core": "7.8.6",
     "@babel/plugin-proposal-class-properties": "7.8.3",
+    "@babel/plugin-proposal-numeric-separator": "^7.8.3",
     "@babel/plugin-syntax-dynamic-import": "7.8.3",
     "@babel/plugin-transform-modules-commonjs": "7.8.3",
     "@babel/plugin-transform-react-constant-elements": "7.8.3",

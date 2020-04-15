@@ -49,10 +49,11 @@ app.get('*.js', (req, res, next) => {
 	res.set('Content-Encoding', 'gzip');
 	next();
 });
+console.log('port', port);
 
 // Start your app.
 // app.listen(8080, host, async err => {
-app.listen(port, host, async err => {
+app.listen(port || 8080, host, async err => {
 	if (err) {
 		return logger.error(err.message);
 	}

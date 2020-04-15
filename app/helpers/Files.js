@@ -1,6 +1,7 @@
 const getFile = path => {
+	const siteUrl = `${window.location.protocol}//${window.location.host}`;
 	if (path) {
-		return `http://${window.location.hostname}:8080/api/getFile?path=${path}`;
+		return `${siteUrl}/api/getFile?path=${path}`;
 	}
 	return false;
 };

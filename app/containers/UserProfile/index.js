@@ -27,6 +27,7 @@ import {
 	getPlaceLoadingAction,
 } from 'containers/Maps/actions';
 import makeSelectMap from 'containers/Maps/selectors';
+import ChangePasswordForm from 'components/ChangePasswordForm';
 import makeSelectUserProfile, {
 	makeSelectUserProfileDomain,
 } from './selectors';
@@ -34,7 +35,11 @@ import reducer from './reducer';
 import saga from './saga';
 import mapReducer from '../Maps/reducer';
 import mapSaga from '../Maps/saga';
-import { userUpdateAction, userUpdateCurrentAction } from './actions';
+import {
+	userUpdateAction,
+	userUpdateCurrentAction,
+	userUpdatePassword,
+} from './actions';
 import { getFile } from '../../helpers/Files';
 // import messages from './messages';
 
@@ -99,6 +104,7 @@ export function UserProfile({
 	seacrhPlaces,
 	updateUser,
 	userUpdateCurrent,
+	changePassword,
 }) {
 	useInjectReducer({ key: 'userProfile', reducer });
 	useInjectSaga({ key: 'userProfile', saga });
@@ -125,6 +131,7 @@ export function UserProfile({
 		_id: user._id,
 	};
 
+	// Tabs Contants
 	const contentList = useCallback(
 		{
 			tab1: (
@@ -138,7 +145,12 @@ export function UserProfile({
 					updateUser={updateUser}
 				/>
 			),
-			tab2: <p>content2</p>,
+			tab2: (
+				<ChangePasswordForm
+					fetching={userUpdateState.fetching}
+					changePassword={changePassword}
+				/>
+			),
 		},
 		[mapData, userUpdateState]
 	);
@@ -162,7 +174,6 @@ export function UserProfile({
 	};
 
 	const handleFileChange = info => {
-		console.log('info:', info);
 		if (info.file.status === 'uploading') {
 			setUploadeState({ loading: true });
 			return;
@@ -193,9 +204,6 @@ export function UserProfile({
 		setTabsState({ [type]: key });
 	};
 
-	const customRequest = data => {
-		console.log('data:', data);
-	};
 	const { imageUrl } = uploadeState;
 	return (
 		<>
@@ -252,6 +260,8 @@ UserProfile.propTypes = {
 	seacrhPlaces: PropTypes.func,
 	getPlaceReverse: PropTypes.func,
 	updateUser: PropTypes.func,
+	changePassword: PropTypes.func,
+	userUpdateCurrent: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -267,6 +277,7 @@ function mapDispatchToProps(dispatch) {
 		loadingAction: () => dispatch(getPlaceLoadingAction(true)),
 		updateUser: data => dispatch(userUpdateAction(data)),
 		userUpdateCurrent: data => dispatch(userUpdateCurrentAction(data)),
+		changePassword: data => dispatch(userUpdatePassword(data)),
 	};
 }
 

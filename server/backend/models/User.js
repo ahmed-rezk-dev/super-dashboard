@@ -81,6 +81,17 @@ userSchema.methods.comparePassword = function comparePassword(
 	});
 };
 
+userSchema.methods.comparePasswordSync = async function comparePasswordSync(
+	candidatePassword,
+	next
+) {
+	try {
+		return await bcrypt.compare(candidatePassword, this.password);
+	} catch (error) {
+		return next(error);
+	}
+};
+
 /**
  * Helper method for getting user's gravatar.
  */

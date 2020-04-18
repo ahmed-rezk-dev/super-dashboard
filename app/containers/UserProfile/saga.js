@@ -2,6 +2,7 @@ import { takeLatest, all, call, put } from 'redux-saga/effects';
 import {
 	USER_UPDATE_ACTION,
 	USER_UPDATE_AVATAR_ACTION,
+	USER_UPDATE_PASSWORD_ACTION,
 } from 'containers/UserProfile/constants';
 import Api from 'utils/Api';
 import {
@@ -52,10 +53,23 @@ function* userUpdateAvatar({ payload }) {
 	}
 }
 
+function* userChangePassword({ payload }) {
+	try {
+		const { data } = yield call(Api.postChangePassword, payload);
+		yield put(userSuccessAction(data));
+		message.success(data.msg);
+	} catch (error) {
+		const { response } = error;
+		errorsHandler(response);
+		yield put(userErrorAction(response.data));
+	}
+}
+
 // Individual exports for testing
 export default function* userProfileSaga() {
 	yield all([
 		takeLatest(USER_UPDATE_ACTION, userUpdate),
 		takeLatest(USER_UPDATE_AVATAR_ACTION, userUpdateAvatar),
+		takeLatest(USER_UPDATE_PASSWORD_ACTION, userChangePassword),
 	]);
 }

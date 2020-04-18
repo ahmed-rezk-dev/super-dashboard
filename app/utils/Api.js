@@ -84,8 +84,8 @@ const create = () => {
 	const postUserUpdate = data => api.put(`users/${data._id}`, data.values);
 	const postUserUpdateAvatar = data =>
 		api.post(`users/update/user/avatar`, data);
+	const postChangePassword = data => api.post('users/change/password', data);
 	const postRegister = data => api.post('register', data);
-	const postChangePassword = data => api.post('password/change', data);
 	const getUserSettings = data => api.get('users/settings', data);
 	const postOrderStore = data => api.post('orders/store', data);
 	const postOrderRejection = data => api.post('orders/rejection', data);

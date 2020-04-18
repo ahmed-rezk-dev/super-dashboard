@@ -69,7 +69,7 @@ exports.delete = (req, res) => res.status(200).json('delete');
 
 // Update user avatar
 exports.updateAvatar = async (req, res) => {
-	const { params, file, headers } = req;
+	const { params, file } = req;
 
 	const findUser = await User.findById(params.id)
 		.populate({ path: 'role', populate: { path: 'resources' } })
@@ -89,6 +89,29 @@ exports.updateAvatar = async (req, res) => {
 	});
 };
 
+/**
+ * POST /change/password
+ * Update current password.
+ */
+exports.postChangePassword = async (req, res) => {
+	try {
+		const findUser = await User.findById(req.user._id).exec();
+		const comparePassword = await findUser.comparePasswordSync(
+			req.body.old_password
+		);
+		if (comparePassword) {
+			findUser.password = req.body.password;
+			findUser.save();
+			return res.status(200).json({
+				status: 'success',
+				msg: 'Success! Your password has been changed.',
+			});
+		}
+	} catch (error) {
+		console.error('error:', error);
+	}
+};
+
 // Validate
 exports.validate = Joi.object({
 	name: Joi.string().required(),
@@ -104,6 +127,11 @@ exports.validate = Joi.object({
 	county: Joi.string().required(),
 	state: Joi.string().required(),
 	country: Joi.string().required(),
+});
+exports.changePasswordValidate = Joi.object({
+	old_password: Joi.string().required(),
+	password: Joi.string().strip(),
+	confirm: Joi.string().strip(),
 });
 exports.params = Joi.object({
 	id: Joi.string()

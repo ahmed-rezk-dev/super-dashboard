@@ -1,7 +1,4 @@
 /*
- *
- * UserProfile actions
- *
  */
 import jwtDecode from 'jwt-decode';
 import { setAuthToken } from 'utils/Auth';
@@ -12,7 +9,6 @@ import {
 	USER_ERROR_ACTION,
 	USER_UPDATE_PASSWORD_ACTION,
 	USER_UPDATE_AVATAR_ACTION,
-	USER_UPDATE_CURRENT,
 } from './constants';
 
 // User update

@@ -8,6 +8,7 @@ ENV NODE_ENV development
 COPY .env /super-dashboard/.env
 
 RUN npm install
+RUN npm run prebuild
 RUN npm run build
 
 EXPOSE 8080
